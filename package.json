@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "heroku": "git push -f heroku dev:master"
+    "heroku-dev": "git push -f heroku dev:master",
+    "heroku-prod": "git push -f heroku master:master"
   },
   "private": true,
   "dependencies": {
