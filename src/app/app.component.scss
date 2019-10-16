@@ -1,0 +1,36 @@
+@import 'variables';
+
+.action-panel {
+  &__button {
+    background: transparent;
+    color: #cecece;
+    cursor: pointer;
+    outline: none;
+    border: none;
+
+    &:hover {
+      color: darken(#cecece, 10%);
+    }
+
+    &:active {
+      color: darken(#cecece, 20%);
+    }
+
+    &:focus {
+      outline: none;
+      border: none;
+    }
+
+    &_active {
+      background-color: $dark-lighten;
+    }
+  }
+}
+
+.dashboard-column {
+  border: 2px solid transparent;
+
+  &_active {
+    border: 2px solid #cecece;
+  }
+}

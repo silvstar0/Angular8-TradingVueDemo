@@ -1,0 +1,33 @@
+{
+  "compileOnSave": false,
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "annotateForClosureCompiler": true
+  },
+  "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "downlevelIteration": true,
+    "sourceMap": true,
+    "sourceRoot": "/",
+    "declaration": false,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "target": "es2015",
+    "alwaysStrict": true,
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["dom", "es2018"],
+    "baseUrl": "src",
+    "paths": {
+      "@app/*": ["app/*"],
+      "@env": ["environments/environment"],
+      "@lib/*": ["lib/*"]
+    },
+    "plugins": [{ "name": "typescript-tslint-plugin" }],
+    "importHelpers": true
+  }
+}

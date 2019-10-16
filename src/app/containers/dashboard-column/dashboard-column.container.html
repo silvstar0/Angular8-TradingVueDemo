@@ -1,0 +1,29 @@
+<gridster [options]="options">
+  <gridster-item
+    *ngFor="let item of columnCards; let cardIndex = index" #gridsterItem [item]="item"
+    (mouseenter)="currentGridItemIndex = cardIndex"
+    (mouseleave)="currentGridItemIndex = undefined"
+  >
+  <div class="gridster-item__actions">
+    <button class="gridster-item__button" (mousedown)="removeItem($event, item)" (touchstart)="removeItem($event, item)">
+      <span class="material-icons gridster-item__button-icon">close</span>
+    </button>
+  </div>
+
+    <div class="gridster-item__content">
+      <div class="iframe-container">
+        <ng-container [ngSwitch]="item.type">
+          <app-real-time-chart *ngSwitchCase="chartTypes.RealTimeChart" #realTimeChart [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, realTimeChart)" class="w-100"></app-real-time-chart>
+          <app-stock-market-chart *ngSwitchCase="chartTypes.StockMarketChart" #stockMarketChart [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, stockMarketChart)" class="w-100"></app-stock-market-chart>
+          <app-market-overview-chart *ngSwitchCase="chartTypes.MarketOverviewChart" #overviewMarketChart [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, overviewMarketChart)" class="w-100"></app-market-overview-chart>
+        </ng-container>
+      </div>
+
+      <ng-container [ngSwitch]="item.type">
+        <div class="gridster-item-content">
+          <app-ag-table-grid *ngSwitchCase="chartTypes.AgTableGrid" #agTableGrid [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, agTableGrid)" class="w-100"></app-ag-table-grid>
+        </div>
+      </ng-container>
+    </div>
+  </gridster-item>
+</gridster>

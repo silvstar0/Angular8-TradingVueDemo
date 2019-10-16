@@ -1,0 +1,42 @@
+@import 'variables';
+
+gridster-item .iframe-container {
+  pointer-events: initial;
+}
+
+.gridster-item-moving .iframe-container {
+  pointer-events: none;
+}
+
+.gridster-item-resizing .iframe-container {
+  pointer-events: none;
+}
+
+.gridster-item {
+  &__actions {
+    cursor: grab;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__button {
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: $base-animation-duration;
+
+    &:hover {
+      background: rgba($dark, 0.2);
+    }
+
+    &:active {
+      background: rgba($dark, 0.5);
+    }
+
+    &-icon {
+      font-size: 18px;
+    }
+  }
+}

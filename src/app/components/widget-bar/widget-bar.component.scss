@@ -1,0 +1,87 @@
+@import 'variables';
+
+  /* Animate items as they're being sorted. */
+  .cdk-drop-list-dragging .cdk-drag {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  /* Animate an item that has been dropped. */
+  .cdk-drag-animating {
+    transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+.widget-bar {
+  &__list {
+    padding: 20px;
+    background-color: $dark;
+  }
+
+  &__drop-list {
+    transition: $base-animation-duration;
+  }
+
+  &__button {
+    color: #cecece;
+    position: relative;
+    border-radius: 5px;
+    padding: 3px;
+    background-color: $dark-darken;
+    border: 1px solid transparent;
+    transition: $base-animation-duration;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+
+    &_active,
+    &:hover {
+      background-color: $dark-lighten;
+      border: 1px solid lighten($dark-lighten, 20%);
+    }
+
+    &:active {
+      background-color: lighten($dark-lighten, 10%);
+      border: 1px solid lighten($dark-lighten, 20%);
+    }
+  }
+
+  &__item {
+    padding: 10px;
+    color: #cecece;
+    position: relative;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+
+    &_dark {
+      background-color: $dark-darken;
+      border: 1px solid transparent;
+    }
+
+    &_light {
+      background-color: $dark-lighten;
+      border: 1px solid lighten($dark-lighten, 20%);
+    }
+  }
+
+  &__divider {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 2px;
+    background-color: $dark-lighten;
+    opacity: 0.8;
+  }
+
+  &__widget-preview-container {
+    z-index: 1000;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+}

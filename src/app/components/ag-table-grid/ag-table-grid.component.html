@@ -1,0 +1,11 @@
+<ag-grid-angular
+  [style.width]="width + 'px'"
+  [style.height]="height + 'px'"
+  class="ag-theme-balham"
+  [rowData]="rowData" 
+  [columnDefs]="columnDefs"
+  [defaultColDef]="{ editable: true, resizable: true }"
+  [colResizeDefault]="'shift'"
+  (cellValueChanged)="change($event)"
+  #agGrid
+></ag-grid-angular>

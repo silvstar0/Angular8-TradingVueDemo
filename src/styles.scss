@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+
+@charset "utf-8";
+
+@import '~normalize-scss/sass/normalize';
+@import '~material-icons/iconfont/material-icons.css';
+
+@import './assets//styles/base/base.scss';
+
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-balham.css";

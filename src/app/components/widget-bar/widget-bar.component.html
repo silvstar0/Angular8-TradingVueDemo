@@ -1,0 +1,81 @@
+<div>
+  <div class="d-flex flex-wrap widget-bar__list w-100">
+    <div class="widget-bar__settings d-flex">
+      <button class="mt-auto mb-auto widget-bar__button mr-2" (click)="addColumn.emit()">
+        <span class="material-icons">add</span>
+      </button>
+
+      <button (click)="editMode = !editMode" [class.widget-bar__button_active]="editMode" class="mt-auto mb-auto widget-bar__button">
+        <span class="material-icons">{{ editMode ? 'drag_indicator' : 'edit' }}</span>
+      </button>
+    </div>
+  
+    <div class="widget-bar__divider mr-3 ml-3"></div>
+
+    <div
+      cdkDropList
+      #pinnedList="cdkDropList"
+      [cdkDropListData]="pinnedComponentSelectors"
+      [cdkDropListConnectedTo]="[optionList]"
+      (cdkDropListDropped)="drop($event)"
+      cdkDropListOrientation="horizontal"
+      [style.min-width]="pinnedComponentSelectors.length ? 0 : '50px'"
+      class="widget-bar__drop-list"
+      [attr.data-name]="pinnedSelectorsContainerName"
+    >
+      <button
+        *ngFor="let option of pinnedComponentSelectors; let i = index"
+        cdkDrag
+        [cdkDragDisabled]="!editMode"
+        (click)="selectBar(option.type)"
+        (mouseenter)="showWidgetPreview(option, i, 'loader-1-'+i)"
+        (mouseleave)="removeWidgetPreview(option.id)"
+        class="mr-3 widget-bar__item widget-bar__item_light"
+      >
+        {{ option.title }}
+  
+        <div class="widget-bar__widget-preview-container pt-3">
+          <div *ngIf="hoveredWidgetIndex === i">
+            <ngx-ui-loader [loaderId]="'loader-1-'+i"></ngx-ui-loader>
+          </div>
+  
+          <ng-template #widgetPreview></ng-template>
+        </div>
+      </button>
+    </div>
+  
+    <div class="widget-bar__divider mr-4 ml-2"></div>
+
+    <div
+      cdkDropList
+      #optionList="cdkDropList"
+      [cdkDropListData]="componentSelectors"
+      [cdkDropListConnectedTo]="[pinnedList]"
+      (cdkDropListDropped)="drop($event)"
+      cdkDropListOrientation="horizontal"
+      [style.min-width]="componentSelectors.length ? 0 : '50px'"
+      class="widget-bar__drop-list"
+      [attr.data-name]="selectorsContainerName"
+    >
+      <button
+        *ngFor="let option of componentSelectors; let i = index"
+        cdkDrag
+        [cdkDragDisabled]="!editMode"
+        (click)="selectBar(option.type)"
+        (mouseenter)="showWidgetPreview(option, i, 'loader-2-'+i)"
+        (mouseleave)="removeWidgetPreview(option.id)"
+        class="mr-3 flex-shrink-0 widget-bar__item widget-bar__item_dark"
+      >
+        {{ option.title }}
+
+        <div class="widget-bar__widget-preview-container pt-3">
+          <div *ngIf="hoveredWidgetIndex === i">
+            <ngx-ui-loader [loaderId]="'loader-2-'+i"></ngx-ui-loader>
+          </div>
+
+          <ng-template #widgetPreview></ng-template>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
