@@ -1,5 +1,5 @@
 <div class="d-flex flex-column h-100">
-  <app-header (addColumn)="addColumn()" (selectChart)="selectChart($event)"></app-header>
+  <app-header *ngIf="columns" (addColumn)="addColumn()" [columnId]="columns[activeColumnIndex].id" (selectChart)="selectChart($event)"></app-header>
 
   <div *ngIf="columns" class="d-flex mt-3 mb-3 w-100 h-100">
     <div *ngFor="let column of columns; let i = index" class="flex-1 w-100 mr-3 flex-column d-flex h-100">

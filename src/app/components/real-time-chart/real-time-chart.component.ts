@@ -1,14 +1,14 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import { TradingViewService } from '@app/core/services';
 import { setupOptionsByParams } from './chart.options';
-import { IWidget, IColumnCard } from '@lib/models';
+import { IWidgetComponent, IWidget } from '@lib/models';
+import { TradingViewService } from '@app/core/services/trading-view.service';
 
 @Component({
   selector: 'app-real-time-chart',
   templateUrl: './real-time-chart.component.html',
   styleUrls: ['./real-time-chart.component.scss'],
 })
-export class RealTimeChartComponent implements AfterViewInit, IWidget {
+export class RealTimeChartComponent implements AfterViewInit, IWidgetComponent {
 
   @Input()
   public drawDataset: any;
@@ -17,7 +17,7 @@ export class RealTimeChartComponent implements AfterViewInit, IWidget {
   public data: any;
 
   @Input()
-  public widget: IColumnCard;
+  public widget: IWidget;
 
   constructor(private tv: TradingViewService) { }
 

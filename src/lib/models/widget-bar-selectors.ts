@@ -1,9 +1,14 @@
-import { ChartTypes } from '@lib/models';
+import { IWidget } from './widget.interface';
+import { ChartTypes } from './chart-types.enum';
 
-export const ComponentSelectors = [
+export const WidgetBarSelectors: IWidget[] = [
   {
     id: 1,
+    connectedBarWidget: 1,
     pinned: true,
+    cols: 2,
+    rows: 2,
+    hidden: false,
     title: 'Real-Time Chart',
     component: undefined,
     type: ChartTypes.RealTimeChart,
@@ -13,7 +18,11 @@ export const ComponentSelectors = [
   },
   {
     id: 2,
+    connectedBarWidget: 2,
     pinned: true,
+    cols: 2,
+    rows: 2,
+    hidden: false,
     title: 'Market Overview',
     component: undefined,
     type: ChartTypes.MarketOverviewChart,
@@ -21,7 +30,11 @@ export const ComponentSelectors = [
   },
   {
     id: 3,
+    connectedBarWidget: 3,
     pinned: true,
+    cols: 2,
+    rows: 2,
+    hidden: false,
     title: 'Stock Market',
     component: undefined,
     type: ChartTypes.StockMarketChart,
@@ -29,7 +42,11 @@ export const ComponentSelectors = [
   },
   {
     id: 4,
+    connectedBarWidget: 4,
     pinned: false,
+    cols: 2,
+    rows: 2,
+    hidden: false,
     title: 'Ag-grid',
     component: undefined,
     type: ChartTypes.AgTableGrid,
@@ -37,7 +54,11 @@ export const ComponentSelectors = [
   },
   {
     id: 5,
+    connectedBarWidget: 5,
     pinned: false,
+    cols: 2,
+    rows: 2,
+    hidden: false,
     title: 'Market Overview',
     component: undefined,
     type: ChartTypes.MarketOverviewChart,
@@ -45,7 +66,11 @@ export const ComponentSelectors = [
   },
   {
     id: 6,
+    connectedBarWidget: 6,
     pinned: false,
+    cols: 2,
+    rows: 2,
+    hidden: false,
     title: 'Stock Market',
     component: undefined,
     type: ChartTypes.StockMarketChart,

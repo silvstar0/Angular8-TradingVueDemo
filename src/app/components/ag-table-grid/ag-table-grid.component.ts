@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, Input } from '@angular/core';
-import { IWidget, IColumnCard } from '@lib/models';
-import { WidgetDataService } from '@app/core/services';
+import { IWidgetComponent, IWidget } from '@lib/models';
+import { WidgetDataService } from '@app/core/services/widget-data.service';
 
 @Component({
   selector: 'app-ag-table-grid',
   templateUrl: './ag-table-grid.component.html',
   styleUrls: ['./ag-table-grid.component.scss'],
 })
-export class AgTableGridComponent implements OnInit, IWidget {
+export class AgTableGridComponent implements OnInit, IWidgetComponent {
   @ViewChild('agGrid', { static: true, read: ViewContainerRef })
   public agGrid: ViewContainerRef;
 
@@ -18,7 +18,7 @@ export class AgTableGridComponent implements OnInit, IWidget {
   public data: any;
 
   @Input()
-  public widget: IColumnCard;
+  public widget: IWidget;
 
   public width: number;
   public height: number;

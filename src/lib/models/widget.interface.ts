@@ -1,8 +1,14 @@
-import { IColumnCard } from './column-card.interface';
-
 export interface IWidget {
+  id: number;
+  connectedBarWidget: number;
+  title: string;
+  cols: number;
+  rows: number;
+  component: any;
+  type: string;
   drawDataset: any;
-  data: any;
-  widget: IColumnCard;
-  init: (data?: any) => void;
-}
+  pinned: boolean;
+  columnId?: number;
+  isCustom?: boolean;
+  hidden: boolean;
+};

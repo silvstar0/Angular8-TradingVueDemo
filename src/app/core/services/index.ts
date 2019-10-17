@@ -1,3 +1,4 @@
+export { WidgetBarService } from './widget-bar.service';
 export { WidgetDataService } from './widget-data.service';
 export { StorageService } from './storage.service';
 export { WidgetScriptService } from './widget-script.service';

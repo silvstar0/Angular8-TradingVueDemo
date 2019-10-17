@@ -15,67 +15,71 @@
     <div
       cdkDropList
       #pinnedList="cdkDropList"
-      [cdkDropListData]="pinnedComponentSelectors"
-      [cdkDropListConnectedTo]="[optionList]"
+      [cdkDropListData]="pinnedWidgetSelectors"
+      [cdkDropListConnectedTo]="[widgetList]"
       (cdkDropListDropped)="drop($event)"
       cdkDropListOrientation="horizontal"
-      [style.min-width]="pinnedComponentSelectors.length ? 0 : '50px'"
+      [style.min-width]="pinnedWidgetSelectors.length ? 0 : '50px'"
       class="widget-bar__drop-list"
       [attr.data-name]="pinnedSelectorsContainerName"
     >
-      <button
-        *ngFor="let option of pinnedComponentSelectors; let i = index"
-        cdkDrag
-        [cdkDragDisabled]="!editMode"
-        (click)="selectBar(option.type)"
-        (mouseenter)="showWidgetPreview(option, i, 'loader-1-'+i)"
-        (mouseleave)="removeWidgetPreview(option.id)"
-        class="mr-3 widget-bar__item widget-bar__item_light"
-      >
-        {{ option.title }}
-  
-        <div class="widget-bar__widget-preview-container pt-3">
-          <div *ngIf="hoveredWidgetIndex === i">
-            <ngx-ui-loader [loaderId]="'loader-1-'+i"></ngx-ui-loader>
+      <ng-container *ngFor="let widget of pinnedWidgetSelectors; let i = index">
+        <button
+          *ngIf="!widget.hidden"
+          cdkDrag
+          [cdkDragDisabled]="!editMode"
+          (click)="selectBar(widget)"
+          (mouseenter)="showWidgetPreview(widget, i, 'loader-1-'+i)"
+          (mouseleave)="removeWidgetPreview(widget.id)"
+          class="mr-3 widget-bar__item widget-bar__item_light"
+        >
+          {{ widget.title }}
+    
+          <div class="widget-bar__widget-preview-container pt-3">
+            <div *ngIf="hoveredWidgetIndex === i">
+              <ngx-ui-loader [loaderId]="'loader-1-'+i"></ngx-ui-loader>
+            </div>
+    
+            <ng-template #widgetPreview></ng-template>
           </div>
-  
-          <ng-template #widgetPreview></ng-template>
-        </div>
-      </button>
+        </button>
+      </ng-container>
     </div>
   
     <div class="widget-bar__divider mr-4 ml-2"></div>
 
     <div
       cdkDropList
-      #optionList="cdkDropList"
-      [cdkDropListData]="componentSelectors"
+      #widgetList="cdkDropList"
+      [cdkDropListData]="widgetSelectors"
       [cdkDropListConnectedTo]="[pinnedList]"
       (cdkDropListDropped)="drop($event)"
       cdkDropListOrientation="horizontal"
-      [style.min-width]="componentSelectors.length ? 0 : '50px'"
+      [style.min-width]="widgetSelectors.length ? 0 : '50px'"
       class="widget-bar__drop-list"
       [attr.data-name]="selectorsContainerName"
     >
-      <button
-        *ngFor="let option of componentSelectors; let i = index"
-        cdkDrag
-        [cdkDragDisabled]="!editMode"
-        (click)="selectBar(option.type)"
-        (mouseenter)="showWidgetPreview(option, i, 'loader-2-'+i)"
-        (mouseleave)="removeWidgetPreview(option.id)"
-        class="mr-3 flex-shrink-0 widget-bar__item widget-bar__item_dark"
-      >
-        {{ option.title }}
+      <ng-container *ngFor="let widget of widgetSelectors; let i = index">
+        <button
+          cdkDrag
+          *ngIf="!widget.hidden"
+          [cdkDragDisabled]="!editMode"
+          (click)="selectBar(widget)"
+          (mouseenter)="showWidgetPreview(widget, i, 'loader-2-'+i)"
+          (mouseleave)="removeWidgetPreview(widget.id)"
+          class="mr-3 flex-shrink-0 widget-bar__item widget-bar__item_dark"
+        >
+          {{ widget.title }}
 
-        <div class="widget-bar__widget-preview-container pt-3">
-          <div *ngIf="hoveredWidgetIndex === i">
-            <ngx-ui-loader [loaderId]="'loader-2-'+i"></ngx-ui-loader>
+          <div class="widget-bar__widget-preview-container pt-3">
+            <div *ngIf="hoveredWidgetIndex === i">
+              <ngx-ui-loader [loaderId]="'loader-2-'+i"></ngx-ui-loader>
+            </div>
+
+            <ng-template #widgetPreview></ng-template>
           </div>
-
-          <ng-template #widgetPreview></ng-template>
-        </div>
-      </button>
+        </button>
+      </ng-container>
     </div>
   </div>
 </div>

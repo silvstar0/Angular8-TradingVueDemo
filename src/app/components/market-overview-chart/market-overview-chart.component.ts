@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2, Input } from '@angular/core';
-import { WidgetScriptService } from '@app/core/services';
 import { setupOptionsByParams } from './chart.options';
-import { IWidget, IColumnCard } from '@lib/models';
+import { IWidgetComponent, IWidget } from '@lib/models';
+import { WidgetScriptService } from '@app/core/services/widget-script.service';
 
 @Component({
   selector: 'app-market-overview-chart',
   templateUrl: './market-overview-chart.component.html',
   styleUrls: ['./market-overview-chart.component.scss'],
 })
-export class MarketOverviewChartComponent implements OnInit, IWidget {
+export class MarketOverviewChartComponent implements OnInit, IWidgetComponent {
   @ViewChild('container', { static: true })
   public container: ElementRef;
 
@@ -19,7 +19,7 @@ export class MarketOverviewChartComponent implements OnInit, IWidget {
   public data: any;
 
   @Input()
-  public widget: IColumnCard;
+  public widget: IWidget;
 
   public _content: HTMLElement;
   private _script: any;

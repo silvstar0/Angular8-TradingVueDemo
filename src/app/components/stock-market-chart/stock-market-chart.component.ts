@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer2, Input } from '@angular/core';
-import { WidgetScriptService } from '@app/core/services';
 import { setupOptionsByParams } from './chart.options';
-import { IWidget, IColumnCard } from '@lib/models';
+import { WidgetScriptService } from '@app/core/services/widget-script.service';
+import { IWidgetComponent, IWidget } from '@lib/models';
 
 @Component({
   selector: 'app-stock-market-chart',
   templateUrl: './stock-market-chart.component.html',
   styleUrls: ['./stock-market-chart.component.scss'],
 })
-export class StockMarketChartComponent implements OnInit, IWidget  {
+export class StockMarketChartComponent implements OnInit, IWidgetComponent  {
   @ViewChild('container', { static: true })
   public container: ElementRef;
 
@@ -19,7 +19,7 @@ export class StockMarketChartComponent implements OnInit, IWidget  {
   public data: any;
 
   @Input()
-  public widget: IColumnCard;
+  public widget: IWidget;
 
   public _content: HTMLElement;
   private _script: any;

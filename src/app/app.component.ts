@@ -1,15 +1,15 @@
-import { Component, ViewChildren, QueryList, ViewContainerRef, OnInit } from '@angular/core';
+import { Component, ViewChildren, QueryList, ViewContainerRef, AfterViewInit } from '@angular/core';
 import { DashboardColumnContainer } from './containers';
-import { StorageKeys, IColumn } from '@lib/models';
+import { StorageKeys, IColumn, IWidget } from '@lib/models';
 
-import { StorageService, WidgetDataService } from './core/services';
+import { StorageService, WidgetDataService, WidgetBarService } from './core/services';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements AfterViewInit {
 
   @ViewChildren('columnContainer', { read: ViewContainerRef })
   public columnContainers: QueryList<ViewContainerRef>;
@@ -19,21 +19,23 @@ export class AppComponent implements OnInit {
   public activeColumnIndex: number;
 
   public get saveFormattedColumns(): IColumn[] {
-    return this.columns.reduce((prev, curr) => {
-      const cards = curr.cards.map(card => ({ ...card, component: undefined }));
-      return [...prev, { id: curr.id, cards }];
-    }, []);
+    return this.columns.reduce((prev, curr) => [...prev, { id: curr.id }], []);
   }
 
   constructor(
     private _storageSvc: StorageService,
     private _widgetDataSvc: WidgetDataService,
+    private _widgetBarSvc: WidgetBarService,
   ) {}
 
-  public ngOnInit() {
-    const defaultColumn = { id: 1,  cards: [] };
-    this.columns = this._storageSvc.get(StorageKeys.columns) || [defaultColumn];
-    this.activeColumnIndex = 0;
+  public ngAfterViewInit() {
+    setTimeout(() => {
+      const defaultColumn = { id: 1,  cards: [] };
+      this.columns = this._storageSvc.get(StorageKeys.columns) || [defaultColumn];
+      this.columns = this.columns.map(c => ({ ...c, cards: this._widgetBarSvc.widgetBarValue.filter(widget => widget.columnId === c.id && widget.hidden) }))
+
+      this.activeColumnIndex = 0;
+    })
   }
 
   public getWidgetsDataByColumnId(columnId): any[] {
@@ -52,15 +54,13 @@ export class AppComponent implements OnInit {
     this._resizeColumns();
   }
 
-  public selectChart(type: string) {
+  public selectChart(widget: IWidget) {
     if (this.activeColumnIndex === undefined) {
       return;
     }
 
     const column = this.columns[this.activeColumnIndex];
-    const gridsterItem = this.getGridsterItem(type, column);
-    column.cards.push(gridsterItem);
-    this._storageSvc.set(StorageKeys.columns, this.saveFormattedColumns);
+    column.cards.push(this._widgetBarSvc.addComponentToWidget(widget));
   }
 
   public removeColumn(index: number) {
@@ -75,15 +75,5 @@ export class AppComponent implements OnInit {
       const data = (col as any)._data.componentView.component as Partial<DashboardColumnContainer>;
       data.options.api.resize();
     })
-  }
-
-  private getGridsterItem(type: string, column: IColumn) {
-    let cardId = 1;
-
-    if (column.cards && column.cards.length) {
-      cardId = column.cards[column.cards.length - 1].id + 1;
-    }
-
-    return { cols: 2, rows: 2, component: undefined, type, id: cardId, columnId: column.id };
   }
 }
