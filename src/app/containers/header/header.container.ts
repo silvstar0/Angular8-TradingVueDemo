@@ -1,4 +1,5 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { IWidget } from '@lib/models';
 
 @Component({
   selector: 'app-header',
@@ -6,8 +7,11 @@ import { Component, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./header.container.scss'],
 })
 export class HeaderContainer {
+  @Input()
+  public columnId: number;
+
   @Output()
-  public selectChart = new EventEmitter<string>();
+  public selectChart = new EventEmitter<IWidget>();
 
   @Output()
   public addColumn = new EventEmitter<string>();

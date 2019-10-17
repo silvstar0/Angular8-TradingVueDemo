@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { GridsterConfig, GridsterItem }  from 'angular-gridster2';
 
-import { ChartTypes, IColumn, IColumnCard } from '@lib/models';
+import { ChartTypes, IColumn, IWidget } from '@lib/models';
 import { DashboardColumnOptions } from './dashboard-column.options';
+import { WidgetBarService } from '@app/core/services';
 
 @Component({
   selector: 'app-dashboard-column',
@@ -11,16 +12,13 @@ import { DashboardColumnOptions } from './dashboard-column.options';
 })
 export class DashboardColumnContainer implements OnInit {
   @Output()
-  public resizeGridsterCard = new EventEmitter<Partial<IColumnCard>>();
+  public resizeGridsterCard = new EventEmitter<Partial<IWidget>>();
 
   @Output()
-  public changeGridsterCard = new EventEmitter<Partial<IColumnCard>>();
+  public changeGridsterCard = new EventEmitter<Partial<IWidget>>();
 
   @Output()
   public removeGridsterCard = new EventEmitter<any>();
-
-  @Output()
-  public minimizeGridsterCard = new EventEmitter<any>();
 
   @ViewChild('gridsterItem', { static: true })
   public gridsterItem: GridsterItem;
@@ -41,6 +39,10 @@ export class DashboardColumnContainer implements OnInit {
     return this.column.cards;
   }
 
+  constructor(
+    private _widgetBarSvc: WidgetBarService,
+  ) {}
+
   public ngOnInit() {
     this.options = {
       ...DashboardColumnOptions,
@@ -48,11 +50,11 @@ export class DashboardColumnContainer implements OnInit {
         const component = (element.item.component as any);
 
         if (component) {
-          const { height, width } = element;
-          component.init({ height: height - this._activePanelHeight, width });
+          // const { height, width } = element;
+          // component.init({ height: height - this._activePanelHeight, width });
         }
 
-        this.changeGridsterCard.emit(element.item as any as IColumnCard);
+        this.changeGridsterCard.emit(element.item as any as IWidget);
       },
       itemResizeCallback: (_, element) => {
         const component = (element.item.component as any);
@@ -62,7 +64,7 @@ export class DashboardColumnContainer implements OnInit {
           component.init({ height: height - this._activePanelHeight, width });
         }
 
-        this.resizeGridsterCard.emit(element.item as any as IColumnCard);
+        this.resizeGridsterCard.emit(element.item as any as IWidget);
       },
     }
   }
@@ -95,8 +97,8 @@ export class DashboardColumnContainer implements OnInit {
   public minimizeItem($event, item) {
     $event.preventDefault();
     $event.stopPropagation();
+    this._widgetBarSvc.minimizeWidget(item);
     this.columnCards.splice(this.columnCards.indexOf(item), 1);
-    this.minimizeGridsterCard.emit(item);
   }
 
   public showSettings() {}

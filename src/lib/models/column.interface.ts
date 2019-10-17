@@ -1,6 +1,6 @@
-import { IColumnCard } from './column-card.interface';
+import { IWidget } from './widget.interface';
 
 export interface IColumn {
   id: number;
-  cards: IColumnCard[];
+  cards: IWidget[];
 }

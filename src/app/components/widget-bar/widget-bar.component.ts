@@ -7,42 +7,45 @@ import {
   Output,
   EventEmitter,
   OnInit,
+  OnDestroy,
+  Input,
+  AfterViewInit,
 } from '@angular/core';
 
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
-import { StorageService } from '@app/core/services';
-import { IWidgetBarSelector, StorageKeys, IColumnCard } from '@lib/models';
-import { StockMarketChartComponent } from './../stock-market-chart/stock-market-chart.component';
-import { MarketOverviewChartComponent } from './../market-overview-chart/market-overview-chart.component';
-import { RealTimeChartComponent } from './../real-time-chart/real-time-chart.component';
-import { AgTableGridComponent } from './../ag-table-grid/ag-table-grid.component';
+import { WidgetBarService } from '@app/core/services';
 
-import { ComponentSelectors } from './widget-bar-selectors';
-import { ChartTypes } from '@lib/models';
+
+import { IWidget } from '@lib/models';
 
 @Component({
   selector: 'app-widget-bar',
   templateUrl: './widget-bar.component.html',
   styleUrls: ['./widget-bar.component.scss'],
 })
-export class WidgetBarComponent implements OnInit {
+export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
   public editMode = false;
-
-  @ViewChildren('widgetPreview', { read: ViewContainerRef })
   public widgetPreviews: QueryList<ViewContainerRef>;
 
+  @ViewChildren('widgetPreview', { read: ViewContainerRef })
+  public _widgetPreviews: QueryList<ViewContainerRef>;
+
+  @Input()
+  public columnId: number;
+
   @Output()
-  public selectChart = new EventEmitter<string>();
+  public selectChart = new EventEmitter<IWidget>();
 
   @Output()
   public addColumn = new EventEmitter<any>();
 
   public hoveredWidgetIndex: number;
 
-  public pinnedComponentSelectors: IWidgetBarSelector[] = [];
-  public componentSelectors: IWidgetBarSelector[] = []
+  public pinnedWidgetSelectors: IWidget[];
+  public widgetSelectors: IWidget[];
 
   public readonly pinnedSelectorsContainerName = 'pinned-selectors-container';
   public readonly selectorsContainerName = 'selectors-container';
@@ -52,26 +55,56 @@ export class WidgetBarComponent implements OnInit {
   constructor(
     private _cfr: ComponentFactoryResolver,
     private _ngxLoaderSvc: NgxUiLoaderService,
-    private _storageSvc: StorageService,
+    private _widgetBarSvc: WidgetBarService,
   ) {}
 
-  public ngOnInit() {
-    const selectors = this._storageSvc.get(StorageKeys.widgetBar) as IWidgetBarSelector[] || ComponentSelectors;
+  public ngAfterViewInit() {
+    this.widgetPreviews = this._widgetPreviews;
 
-    selectors.forEach(selector => selector.pinned
-      ? this.pinnedComponentSelectors.push(selector)
-      : this.componentSelectors.push(selector));
-
-    this.pinnedComponentSelectors = this.pinnedComponentSelectors.map(selector => this.addComponentToSelector(selector));
-    this.componentSelectors = this.componentSelectors.map(selector => this.addComponentToSelector(selector));
+    this._widgetPreviews
+      .changes
+      .pipe(untilDestroyed(this))
+      .subscribe((changes) => {
+        this.widgetPreviews = changes;
+      })
   }
 
-  public selectBar(type: string) {
-    if (this.editMode) {
+  public ngOnInit() {
+    this._widgetBarSvc.data
+      .pipe(untilDestroyed(this))
+      .subscribe(widgets => {
+        this.pinnedWidgetSelectors = [];
+        this.widgetSelectors = [];
+
+        widgets.forEach(widget => widget.pinned
+          ? this.pinnedWidgetSelectors.push(widget)
+          : this.widgetSelectors.push(widget));
+    
+        this.pinnedWidgetSelectors = this.pinnedWidgetSelectors.map(widget => this._widgetBarSvc.addComponentToWidget(widget));
+        this.widgetSelectors = this.widgetSelectors.map(widget => this._widgetBarSvc.addComponentToWidget(widget));
+      })
+  }
+
+  public ngOnDestroy() {}
+
+  public selectBar(widget: IWidget) {
+    if (this.editMode || !this.columnId) {
       return;
     }
 
-    this.selectChart.emit(type);
+    const widgets = [...this._widgetBarSvc.widgetBarValue];
+
+    if (widget.isCustom) {
+      const widgetIndex = widgets.findIndex(value => value.id === widget.id);
+      widgets[widgetIndex].hidden = true;
+      this._widgetBarSvc.updateWidgetList(widgets);
+      this.selectChart.emit(widget);
+    } else {
+      const customWidgetId = widgets[widgets.length - 1].id + 1 || 1;
+      const draftWidget = { ...widget, id: customWidgetId, hidden: true, columnId: this.columnId, isCustom: true };
+      this._widgetBarSvc.minimizeWidget(draftWidget);
+      this.selectChart.emit(draftWidget);
+    }
   }
 
   public drop(event: CdkDragDrop<string[]>) {
@@ -93,16 +126,16 @@ export class WidgetBarComponent implements OnInit {
       }
 
       let selectors = [
-        ...(event.container.data as any).map((d: IColumnCard) => ({ ...d, pinned: newContainerName === this.pinnedSelectorsContainerName, component: undefined })),
-        ...(event.previousContainer.data as any).map((d: IColumnCard) => ({ ...d, pinned: previousContainerName === this.pinnedSelectorsContainerName, component: undefined })),
+        ...(event.container.data as any).map((d: IWidget) => ({ ...d, pinned: newContainerName === this.pinnedSelectorsContainerName })),
+        ...(event.previousContainer.data as any).map((d: IWidget) => ({ ...d, pinned: previousContainerName === this.pinnedSelectorsContainerName })),
       ];
 
-      this._storageSvc.set(StorageKeys.widgetBar, selectors);
+      this._widgetBarSvc.updateWidgetList(selectors);
     }, 100);
 
   }
 
-  public showWidgetPreview(option: IWidgetBarSelector, index: number, loaderId: string) {
+  public showWidgetPreview(widget: IWidget, index: number, loaderId: string) {
     if (this.editMode) {
       return;
     }
@@ -113,12 +146,12 @@ export class WidgetBarComponent implements OnInit {
 
     setTimeout(() => this.stopLoader(), 300);
 
-    const widgetIndex = [...this.pinnedComponentSelectors, ...this.componentSelectors].findIndex(selector => selector.id === option.id);
-    const containerRef = (this.widgetPreviews as any)._results[widgetIndex];
 
-    const factory = this._cfr.resolveComponentFactory(option.component as any);
+
+    const factory = this._cfr.resolveComponentFactory(widget.component as any);
+    const containerRef = this.getContainerRefByWidgetId(widget.id);
     const newComponent = containerRef.createComponent(factory);
-    (newComponent.instance as any).drawDataset = option.drawDataset;
+    (newComponent.instance as any).drawDataset = widget.drawDataset;
   }
 
   public removeWidgetPreview(widgetId: number) {
@@ -129,9 +162,16 @@ export class WidgetBarComponent implements OnInit {
     this.stopLoader();
     this.hoveredWidgetIndex = undefined;
 
-    const widgetIndex = [...this.pinnedComponentSelectors, ...this.componentSelectors].findIndex(selector => selector.id === widgetId);
-    const containerRef = (this.widgetPreviews as any)._results[widgetIndex];
+    const containerRef = this.getContainerRefByWidgetId(widgetId);
     containerRef.clear();
+  }
+
+  private getContainerRefByWidgetId(widgetId: number) {
+    const widgetIndex = [...this.pinnedWidgetSelectors, ...this.widgetSelectors]
+      .filter(selector => !selector.hidden)
+      .findIndex(selector => selector.id === widgetId);
+
+    return (this.widgetPreviews as any)._results[widgetIndex];
   }
 
   private stopLoader() {
@@ -143,26 +183,5 @@ export class WidgetBarComponent implements OnInit {
       this._ngxLoaderSvc.stopLoader(this._currentLoaderId);
       this._currentLoaderId = undefined;
     }
-  }
-
-  private addComponentToSelector(selector: IWidgetBarSelector) {
-    let component = undefined;
-
-    switch (selector.type) {
-      case ChartTypes.MarketOverviewChart:
-        component = MarketOverviewChartComponent;
-        break;
-      case ChartTypes.RealTimeChart:
-        component = RealTimeChartComponent;
-        break;
-      case ChartTypes.StockMarketChart:
-        component = StockMarketChartComponent;
-        break;
-      case ChartTypes.AgTableGrid:
-        component = AgTableGridComponent;
-        break;
-    }
-
-    return { ...selector, component };
   }
  }
