@@ -19,6 +19,9 @@ export class DashboardColumnContainer implements OnInit {
   @Output()
   public removeGridsterCard = new EventEmitter<any>();
 
+  @Output()
+  public minimizeGridsterCard = new EventEmitter<any>();
+
   @ViewChild('gridsterItem', { static: true })
   public gridsterItem: GridsterItem;
 
@@ -88,4 +91,13 @@ export class DashboardColumnContainer implements OnInit {
     this.columnCards.splice(this.columnCards.indexOf(item), 1);
     this.removeGridsterCard.emit();
   }
+
+  public minimizeItem($event, item) {
+    $event.preventDefault();
+    $event.stopPropagation();
+    this.columnCards.splice(this.columnCards.indexOf(item), 1);
+    this.minimizeGridsterCard.emit(item);
+  }
+
+  public showSettings() {}
 }

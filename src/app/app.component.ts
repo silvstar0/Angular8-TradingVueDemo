@@ -1,6 +1,6 @@
 import { Component, ViewChildren, QueryList, ViewContainerRef, OnInit } from '@angular/core';
 import { DashboardColumnContainer } from './containers';
-import { StorageKeys, IColumn } from '@lib/models';
+import { StorageKeys, IColumn, IColumnCard } from '@lib/models';
 
 import { StorageService, WidgetDataService } from './core/services';
 
@@ -42,6 +42,10 @@ export class AppComponent implements OnInit {
 
   public updateColumnStorage() {
     this._storageSvc.set(StorageKeys.columns, this.saveFormattedColumns);
+  }
+
+  public minimizeGridsterCard(card: IColumnCard) {
+    console.log(card);
   }
 
   public addColumn() {
