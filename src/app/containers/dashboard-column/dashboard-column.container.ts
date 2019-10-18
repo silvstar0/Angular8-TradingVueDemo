@@ -90,6 +90,7 @@ export class DashboardColumnContainer implements OnInit {
   public removeItem($event, item) {
     $event.preventDefault();
     $event.stopPropagation();
+    this._widgetBarSvc.removeWidget(item);
     this.columnCards.splice(this.columnCards.indexOf(item), 1);
     this.removeGridsterCard.emit();
   }

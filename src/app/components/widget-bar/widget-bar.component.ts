@@ -39,9 +39,6 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output()
   public selectChart = new EventEmitter<IWidget>();
 
-  @Output()
-  public addColumn = new EventEmitter<any>();
-
   public hoveredWidgetIndex: number;
 
   public pinnedWidgetSelectors: IWidget[];

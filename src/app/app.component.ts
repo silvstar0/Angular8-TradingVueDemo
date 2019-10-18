@@ -1,5 +1,4 @@
 import { Component, ViewChildren, QueryList, ViewContainerRef, AfterViewInit } from '@angular/core';
-import { DashboardColumnContainer } from './containers';
 import { StorageKeys, IColumn, IWidget } from '@lib/models';
 
 import { StorageService, WidgetDataService, WidgetBarService } from './core/services';
@@ -30,8 +29,8 @@ export class AppComponent implements AfterViewInit {
 
   public ngAfterViewInit() {
     setTimeout(() => {
-      const defaultColumn = { id: 1,  cards: [] };
-      this.columns = this._storageSvc.get(StorageKeys.columns) || [defaultColumn];
+      const defaultColumns = [{ id: 1,  cards: [] }, { id: 2, cards: [] }];
+      this.columns = this._storageSvc.get(StorageKeys.columns) || defaultColumns;
       this.columns = this.columns.map(c => ({ ...c, cards: this._widgetBarSvc.widgetBarValue.filter(widget => widget.columnId === c.id && widget.hidden) }))
 
       this.activeColumnIndex = 0;
@@ -40,18 +39,6 @@ export class AppComponent implements AfterViewInit {
 
   public getWidgetsDataByColumnId(columnId): any[] {
     return this.widgetData ? this.widgetData.find(d => d.columnId === columnId) : undefined;
-  }
-
-  public updateColumnStorage() {
-    this._storageSvc.set(StorageKeys.columns, this.saveFormattedColumns);
-  }
-
-  public addColumn() {
-    const lastColumn = this.columns[this.columns.length - 1];
-    this.columns.push({ id: lastColumn ? lastColumn.id + 1 : 1, cards: [] });
-    this.activeColumnIndex = this.columns.length - 1;
-    this._storageSvc.set(StorageKeys.columns, this.saveFormattedColumns);
-    this._resizeColumns();
   }
 
   public selectChart(widget: IWidget) {
@@ -63,17 +50,10 @@ export class AppComponent implements AfterViewInit {
     column.cards.push(this._widgetBarSvc.addComponentToWidget(widget));
   }
 
-  public removeColumn(index: number) {
-    this.columns.splice(index, 1);
-    this._storageSvc.set(StorageKeys.columns, this.saveFormattedColumns);
-    this.activeColumnIndex = 0;
-    this._resizeColumns();
-  }
-
-  private _resizeColumns() {
-    this.columnContainers.forEach(col => {
-      const data = (col as any)._data.componentView.component as Partial<DashboardColumnContainer>;
-      data.options.api.resize();
-    })
-  }
+  // private _resizeColumns() {
+  //   this.columnContainers.forEach(col => {
+  //     const data = (col as any)._data.componentView.component as Partial<DashboardColumnContainer>;
+  //     data.options.api.resize();
+  //   })
+  // }
 }

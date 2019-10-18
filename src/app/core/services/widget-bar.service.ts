@@ -48,6 +48,14 @@ export class WidgetBarService {
     this._widgetBar.next(widgets);
   }
 
+  public removeWidget(widget: IWidget) {
+    const existWidgetIndex = this.widgetBarValue.findIndex(w => w.id === widget.id);
+    const widgets = [...this.widgetBarValue];
+    widgets.splice(existWidgetIndex, 1);
+    this._storageSvc.set(StorageKeys.widgetBar, widgets.map(w => ({ ...w, component: undefined })));
+    this._widgetBar.next(widgets);
+  }
+
   public addComponentToWidget(widget: IWidget) {
     let component = undefined;
 
