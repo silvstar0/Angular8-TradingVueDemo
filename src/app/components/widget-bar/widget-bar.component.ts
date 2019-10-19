@@ -93,13 +93,13 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (widget.isCustom) {
       const widgetIndex = widgets.findIndex(value => value.id === widget.id);
-      widgets[widgetIndex].hidden = true;
+      widgets[widgetIndex].inDashboard = true;
       this._widgetBarSvc.updateWidgetList(widgets);
       this.selectChart.emit(widget);
     } else {
       const customWidgetId = widgets[widgets.length - 1].id + 1 || 1;
-      const draftWidget = { ...widget, id: customWidgetId, hidden: true, columnId: this.columnId, isCustom: true };
-      this._widgetBarSvc.minimizeWidget(draftWidget);
+      const draftWidget = { ...widget, id: customWidgetId, inDashboard: true, columnId: this.columnId, isCustom: true };
+      this._widgetBarSvc.updateWidget(draftWidget);
       this.selectChart.emit(draftWidget);
     }
   }
@@ -143,8 +143,6 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     setTimeout(() => this.stopLoader(), 300);
 
-
-
     const factory = this._cfr.resolveComponentFactory(widget.component as any);
     const containerRef = this.getContainerRefByWidgetId(widget.id);
     const newComponent = containerRef.createComponent(factory);
@@ -165,7 +163,7 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private getContainerRefByWidgetId(widgetId: number) {
     const widgetIndex = [...this.pinnedWidgetSelectors, ...this.widgetSelectors]
-      .filter(selector => !selector.hidden)
+      .filter(selector => !selector.inDashboard)
       .findIndex(selector => selector.id === widgetId);
 
     return (this.widgetPreviews as any)._results[widgetIndex];
@@ -176,7 +174,8 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    if (this._currentLoaderId) {
+    const isLoaderExist = Object.keys(this._ngxLoaderSvc.getLoaders()).includes(this._currentLoaderId);
+    if (isLoaderExist) {
       this._ngxLoaderSvc.stopLoader(this._currentLoaderId);
       this._currentLoaderId = undefined;
     }

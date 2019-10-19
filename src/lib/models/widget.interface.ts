@@ -10,5 +10,5 @@ export interface IWidget {
   pinned: boolean;
   columnId?: number;
   isCustom?: boolean;
-  hidden: boolean;
+  inDashboard: boolean;
 };

@@ -27,17 +27,19 @@ export class WidgetBarService {
     private _storageSvc: StorageService,
   ) {}
 
-  public minimizeWidget(value: IWidget) {
+  public updateWidget(value: IWidget) {
     const existWidget = this.widgetBarValue && this.widgetBarValue.find(widget => widget.id === value.id);
     let draftWidgets = [];
 
     if (existWidget) {
-      draftWidgets = this.widgetBarValue.map(widget => widget.id === value.id ? { ...value, hidden: false } : widget);
+      draftWidgets = this.widgetBarValue.map(widget => widget.id === value.id ? value : widget);
     } else {
       draftWidgets = [...this.widgetBarValue];
       draftWidgets.push(value);
+      console.log(value);
     }
 
+    console.log(draftWidgets);
     this._storageSvc.set(StorageKeys.widgetBar, draftWidgets.map(w => ({ ...w, component: undefined })));
     this._widgetBar.next(draftWidgets);
   }

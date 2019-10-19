@@ -1,0 +1,17 @@
+@import 'variables';
+
+:host {
+  display: flex;
+}
+
+.column-divider {
+  cursor: col-resize;
+  width: 3px;
+  height: 80%;
+  background-color: #cecece;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: auto;
+  margin-bottom: auto;
+  transition: $base-animation-duration;
+}

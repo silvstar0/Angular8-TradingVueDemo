@@ -3,7 +3,7 @@
 
   <div class="d-flex mt-3 mb-3 w-100 h-100">
     <ng-container *ngFor="let column of columns; let i = index">
-      <div [style.width]="columnsWidths[i]" class="flex-column d-flex h-100">
+      <div *ngIf="columnsWidths[i] > 5" [style.width]="columnsWidths[i] + '%'" class="flex-column d-flex h-100">
         <div class="action-panel d-flex mb-2">
           <div class="ml-auto">
             <button class="action-panel__button mr-2" [class.action-panel__button_active]="activeColumnIndex === i" (click)="activeColumnIndex = i">
@@ -20,11 +20,8 @@
           class="h-100 dashboard-column">
         </app-dashboard-column>
       </div>
-      <div
-      class="123"
-        *ngIf="i !== columns.length - 1"
-        #columnDivider>
-      </div>
+
+      <app-column-divider *ngIf="i !== columns.length - 1" (divide)="calcColumnSize($event)"></app-column-divider>
     </ng-container>
   </div>
 </div>

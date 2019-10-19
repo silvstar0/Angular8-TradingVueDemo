@@ -21,7 +21,7 @@
     >
       <ng-container *ngFor="let widget of pinnedWidgetSelectors; let i = index">
         <button
-          *ngIf="!widget.hidden"
+          *ngIf="!widget.inDashboard"
           cdkDrag
           [cdkDragDisabled]="!editMode"
           (click)="selectBar(widget)"
@@ -58,7 +58,7 @@
       <ng-container *ngFor="let widget of widgetSelectors; let i = index">
         <button
           cdkDrag
-          *ngIf="!widget.hidden"
+          *ngIf="!widget.inDashboard"
           [cdkDragDisabled]="!editMode"
           (click)="selectBar(widget)"
           (mouseenter)="showWidgetPreview(widget, i, 'loader-2-'+i)"
