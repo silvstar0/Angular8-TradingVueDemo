@@ -73,8 +73,8 @@ export const WidgetBarSelectors: IWidget[] = [
   {
     id: 7,
     pinned: false,
-    cols: 2,
-    rows: 2,
+    cols: 8,
+    rows: 4,
     inDashboard: false,    
     title: 'Monaco Editor',
     component: undefined,
