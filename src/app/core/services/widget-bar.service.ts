@@ -8,6 +8,7 @@ import { StockMarketChartComponent } from '@app/components/stock-market-chart/st
 import { MarketOverviewChartComponent } from '@app/components/market-overview-chart/market-overview-chart.component';
 import { RealTimeChartComponent } from '@app/components/real-time-chart/real-time-chart.component';
 import { AgTableGridComponent } from '@app/components/ag-table-grid/ag-table-grid.component';
+import { MonacoEditorComponent } from '@app/components/monaco-editor/monaco-editor.component';
 
 @Injectable({
   providedIn: 'root',
@@ -71,6 +72,9 @@ export class WidgetBarService {
         break;
       case ChartTypes.AgTableGrid:
         component = AgTableGridComponent;
+        break;
+      case ChartTypes.MonacoEditor:
+        component = MonacoEditorComponent;
         break;
     }
 

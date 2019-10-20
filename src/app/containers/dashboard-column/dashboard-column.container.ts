@@ -30,6 +30,8 @@ export class DashboardColumnContainer implements OnInit {
   public options: GridsterConfig;
   public currentGridItemIndex: number;
 
+  symbol = 'DEI';
+
   private readonly _activePanelHeight = 23;
 
   public get columnCards(): any[] {
@@ -38,7 +40,11 @@ export class DashboardColumnContainer implements OnInit {
 
   constructor(
     private _widgetBarSvc: WidgetBarService,
-  ) {}
+  ) { }
+  
+  onSymbolChanged(symbol: string) {
+    this.symbol = symbol;
+  }
 
   public ngOnInit() {
     this.options = {
@@ -68,8 +74,7 @@ export class DashboardColumnContainer implements OnInit {
 
     const { width, height } = gridsterItem;
     return { containerId: `container-${this.column.id}-${cardIndex}`, width, height: height - this._activePanelHeight };
-  };
-
+  }
   public changedOptions() {
     if (this.options.api && this.options.api.optionsChanged) {
       this.options.api.optionsChanged();

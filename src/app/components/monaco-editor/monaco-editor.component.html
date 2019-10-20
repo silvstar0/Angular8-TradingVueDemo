@@ -1,0 +1,10 @@
+<div [style.height]="height+'px'" [style.width]="width+'px'" >
+    <ngx-monaco-editor
+        style="height: 100%; width: 100%;"
+        class="my-code-editor"
+        [options]="editorOptions"
+        [(ngModel)]="code"
+        (keyup.enter)="onKeyUp()"
+        >
+    </ngx-monaco-editor>
+</div>

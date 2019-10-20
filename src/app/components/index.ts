@@ -10,3 +10,7 @@ export { MarketOverviewChartComponent } from './market-overview-chart/market-ove
 
 // other-widgets
 export { AgTableGridComponent } from './ag-table-grid/ag-table-grid.component';
+
+//monaco editor
+export { MonacoEditorComponent } from './monaco-editor/monaco-editor.component';
+
