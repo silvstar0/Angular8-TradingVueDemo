@@ -72,11 +72,10 @@ export const WidgetBarSelectors: IWidget[] = [
   },
   {
     id: 7,
-    connectedBarWidget: 7,    
     pinned: false,
     cols: 2,
     rows: 2,
-    hidden: false,    
+    inDashboard: false,    
     title: 'Monaco Editor',
     component: undefined,
     type: ChartTypes.MonacoEditor,
