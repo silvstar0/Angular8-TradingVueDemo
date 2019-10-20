@@ -3,4 +3,5 @@ export const StorageKeys = {
   cards: 'cards',
   widgetBar: 'widget-bar-selectors',
   cardsDataset: 'cards-dataset',
+  columnsWidthData: 'columns-width-data',
 };

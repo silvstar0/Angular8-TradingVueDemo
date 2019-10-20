@@ -12,7 +12,4 @@ export class HeaderContainer {
 
   @Output()
   public selectChart = new EventEmitter<IWidget>();
-
-  @Output()
-  public addColumn = new EventEmitter<string>();
 }

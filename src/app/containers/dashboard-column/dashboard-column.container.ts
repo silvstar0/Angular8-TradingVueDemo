@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { GridsterConfig, GridsterItem }  from 'angular-gridster2';
 
 import { ChartTypes, IColumn, IWidget } from '@lib/models';
@@ -11,15 +11,6 @@ import { WidgetBarService } from '@app/core/services';
   styleUrls: ['./dashboard-column.container.scss']
 })
 export class DashboardColumnContainer implements OnInit {
-  @Output()
-  public resizeGridsterCard = new EventEmitter<Partial<IWidget>>();
-
-  @Output()
-  public changeGridsterCard = new EventEmitter<Partial<IWidget>>();
-
-  @Output()
-  public removeGridsterCard = new EventEmitter<any>();
-
   @ViewChild('gridsterItem', { static: true })
   public gridsterItem: GridsterItem;
 
@@ -47,14 +38,8 @@ export class DashboardColumnContainer implements OnInit {
     this.options = {
       ...DashboardColumnOptions,
       itemChangeCallback: (_, element) => {
-        const component = (element.item.component as any);
-
-        if (component) {
-          // const { height, width } = element;
-          // component.init({ height: height - this._activePanelHeight, width });
-        }
-
-        this.changeGridsterCard.emit(element.item as any as IWidget);
+        const item = element.item as any as IWidget;
+        this._widgetBarSvc.updateWidget({ ...item, inDashboard: true });
       },
       itemResizeCallback: (_, element) => {
         const component = (element.item.component as any);
@@ -63,8 +48,6 @@ export class DashboardColumnContainer implements OnInit {
           const { height, width } = element;
           component.init({ height: height - this._activePanelHeight, width });
         }
-
-        this.resizeGridsterCard.emit(element.item as any as IWidget);
       },
     }
   }
@@ -90,14 +73,14 @@ export class DashboardColumnContainer implements OnInit {
   public removeItem($event, item) {
     $event.preventDefault();
     $event.stopPropagation();
+    this._widgetBarSvc.removeWidget(item);
     this.columnCards.splice(this.columnCards.indexOf(item), 1);
-    this.removeGridsterCard.emit();
   }
 
   public minimizeItem($event, item) {
     $event.preventDefault();
     $event.stopPropagation();
-    this._widgetBarSvc.minimizeWidget(item);
+    this._widgetBarSvc.updateWidget({ ...item, inDashboard: false });
     this.columnCards.splice(this.columnCards.indexOf(item), 1);
   }
 

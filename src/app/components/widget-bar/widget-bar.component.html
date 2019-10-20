@@ -1,10 +1,6 @@
 <div>
   <div class="d-flex flex-wrap widget-bar__list w-100">
     <div class="widget-bar__settings d-flex">
-      <button class="mt-auto mb-auto widget-bar__button mr-2" (click)="addColumn.emit()">
-        <span class="material-icons">add</span>
-      </button>
-
       <button (click)="editMode = !editMode" [class.widget-bar__button_active]="editMode" class="mt-auto mb-auto widget-bar__button">
         <span class="material-icons">{{ editMode ? 'drag_indicator' : 'edit' }}</span>
       </button>
@@ -25,7 +21,7 @@
     >
       <ng-container *ngFor="let widget of pinnedWidgetSelectors; let i = index">
         <button
-          *ngIf="!widget.hidden"
+          *ngIf="!widget.inDashboard"
           cdkDrag
           [cdkDragDisabled]="!editMode"
           (click)="selectBar(widget)"
@@ -62,7 +58,7 @@
       <ng-container *ngFor="let widget of widgetSelectors; let i = index">
         <button
           cdkDrag
-          *ngIf="!widget.hidden"
+          *ngIf="!widget.inDashboard"
           [cdkDragDisabled]="!editMode"
           (click)="selectBar(widget)"
           (mouseenter)="showWidgetPreview(widget, i, 'loader-2-'+i)"

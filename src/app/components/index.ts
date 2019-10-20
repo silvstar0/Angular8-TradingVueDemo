@@ -1,3 +1,5 @@
+export { ColumnDividerComponent } from './column-divider/column-divider.component';
+
 export { TitleBarComponent } from './title-bar/title-bar.component';
 export { WidgetBarComponent } from './widget-bar/widget-bar.component';
 
