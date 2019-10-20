@@ -1,6 +1,6 @@
 <gridster [options]="options">
   <gridster-item
-    *ngFor="let item of columnCards; let cardIndex = index" #gridsterItem [item]="item"
+    *ngFor="let item of column.cards; let cardIndex = index" #gridsterItem [item]="item"
     (mouseenter)="currentGridItemIndex = cardIndex"
     (mouseleave)="currentGridItemIndex = undefined"
   >

@@ -8,7 +8,7 @@ import { WidgetBarService } from '@app/core/services';
 @Component({
   selector: 'app-dashboard-column',
   templateUrl: './dashboard-column.container.html',
-  styleUrls: ['./dashboard-column.container.scss']
+  styleUrls: ['./dashboard-column.container.scss'],
 })
 export class DashboardColumnContainer implements OnInit {
   @ViewChild('gridsterItem', { static: true })
@@ -30,8 +30,7 @@ export class DashboardColumnContainer implements OnInit {
   public options: GridsterConfig;
   public currentGridItemIndex: number;
 
-  symbol = 'DEI';
-
+  public symbol = 'DEI';
   private readonly _activePanelHeight = 23;
 
   public get columnCards(): any[] {
@@ -41,10 +40,6 @@ export class DashboardColumnContainer implements OnInit {
   constructor(
     private _widgetBarSvc: WidgetBarService,
   ) { }
-  
-  onSymbolChanged(symbol: string) {
-    this.symbol = symbol;
-  }
 
   public ngOnInit() {
     this.options = {
@@ -58,10 +53,15 @@ export class DashboardColumnContainer implements OnInit {
 
         if (component) {
           const { height, width } = element;
-          component.init({ height: height - this._activePanelHeight, width });
+          const contentHeight = component.widget.type === ChartTypes.MonacoEditor ? height : height - this._activePanelHeight;
+          component.init({ height: contentHeight, width });
         }
       },
     }
+  }
+
+  public onSymbolChanged(symbol: string) {
+    this.symbol = symbol;
   }
 
   public getWidgetsDataByWidgetId(widgetId): any[] {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { IWidget, IWidgetComponent } from '@lib/models';
 
 @Component({
@@ -17,7 +17,7 @@ export class MonacoEditorComponent implements IWidgetComponent, OnInit {
   public widget: IWidget;
 
   @Output()
-  public symbolChanged = new EventEmitter<string>();
+  public readonly symbolChanged = new EventEmitter<string>();
 
   public width: number;
   public height: number;
@@ -29,6 +29,10 @@ export class MonacoEditorComponent implements IWidgetComponent, OnInit {
 
   public code = '';
 
+  constructor(
+    private _cdr: ChangeDetectorRef,
+  ) {}
+
   public ngOnInit() {
     this.init();
   }
@@ -37,13 +41,15 @@ export class MonacoEditorComponent implements IWidgetComponent, OnInit {
     this.width = resetData && resetData.width
       ? Math.floor(resetData.width)
       : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
+
     this.height = resetData && resetData.height
       ? Math.floor(resetData.height)
       : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 600;
 
+      this._cdr.detectChanges();
   }
 
-  onKeyUp() {
+  public onKeyUp() {
     const symbol: string = this.code.replace(/(\r\n|\n|\r)/gm, '');
     this.symbolChanged.emit(symbol);
   }

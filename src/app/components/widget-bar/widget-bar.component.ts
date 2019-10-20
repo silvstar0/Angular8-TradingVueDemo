@@ -71,7 +71,7 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
     this._widgetPreviews
       .changes
       .pipe(untilDestroyed(this))
-      .subscribe((changes) => {
+      .subscribe(changes => {
         this.widgetPreviews = changes;
       })
   }
@@ -137,9 +137,13 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
 
-      let selectors = [
+      const selectors = [
         ...(event.container.data as any).map((d: IWidget) => ({ ...d, pinned: newContainerName === this.pinnedSelectorsContainerName })),
-        ...(event.previousContainer.data as any).map((d: IWidget) => ({ ...d, pinned: previousContainerName === this.pinnedSelectorsContainerName })),
+        ...(event.previousContainer.data as any).map((d: IWidget) => (
+          { ...d,
+            pinned: previousContainerName === this.pinnedSelectorsContainerName,
+          }
+        )),
       ];
 
       this._widgetBarSvc.updateWidgetList(selectors);

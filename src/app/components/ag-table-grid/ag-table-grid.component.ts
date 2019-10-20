@@ -26,7 +26,7 @@ export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy
   public widget: IWidget;
 
   @Output()
-  public symbolChanged = new EventEmitter<string>();
+  public readonly symbolChanged = new EventEmitter<string>();
 
   public width: number;
   public height: number;
@@ -55,8 +55,7 @@ export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy
     this.init();
   }
 
-  public ngOnDestroy() {
-  }
+  public ngOnDestroy() {}
 
   public init(resetData?: any) {
     this.width = resetData && resetData.width 

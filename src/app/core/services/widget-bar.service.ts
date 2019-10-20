@@ -17,7 +17,7 @@ export class WidgetBarService {
   private _widgetBar = new BehaviorSubject<IWidget[]>(this._storageSvc.get(StorageKeys.widgetBar) || WidgetBarSelectors);
 
   public get widgetBarValue(): IWidget[]  {
-    return this._widgetBar.value;
+    return (this._widgetBar as any).value;
   }
 
   public get data(): Observable<IWidget[]> {
@@ -35,8 +35,7 @@ export class WidgetBarService {
     if (existWidget) {
       draftWidgets = this.widgetBarValue.map(widget => widget.id === value.id ? value : widget);
     } else {
-      draftWidgets = [...this.widgetBarValue];
-      draftWidgets.push(value);
+      draftWidgets = [...this.widgetBarValue, value];
     }
 
     this._storageSvc.set(StorageKeys.widgetBar, draftWidgets.map(w => ({ ...w, component: undefined })));
@@ -58,7 +57,7 @@ export class WidgetBarService {
   }
 
   public addComponentToWidget(widget: IWidget) {
-    let component = undefined;
+    let component;
 
     switch (widget.type) {
       case ChartTypes.MarketOverviewChart:
