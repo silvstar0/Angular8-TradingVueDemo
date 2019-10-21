@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { GridsterConfig, GridsterItem }  from 'angular-gridster2';
 
 import { ChartTypes, IColumn, IWidget } from '@lib/models';
@@ -13,6 +13,12 @@ import { WidgetBarService } from '@app/core/services';
 export class DashboardColumnContainer implements OnInit {
   @ViewChild('gridsterItem', { static: true })
   public gridsterItem: GridsterItem;
+
+  @Output()
+  public readonly removeWidget = new EventEmitter<any>();
+
+  @Output()
+  public readonly minimizeWidget = new EventEmitter<any>();
 
   @Input()
   public column: IColumn;

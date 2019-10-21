@@ -1,7 +1,7 @@
 import { GridType, CompactType, DisplayGrid } from 'angular-gridster2';
 
 export const DashboardColumnOptions = {
-  gridType: GridType.Fit,
+  gridType: GridType.ScrollVertical,
   compactType: CompactType.None,
   margin: 10,
   outerMargin: true,

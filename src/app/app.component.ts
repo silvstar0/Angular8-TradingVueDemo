@@ -63,7 +63,7 @@ export class AppComponent implements OnInit {
     this.resizeColumns();
   }
 
-  private resizeColumns = () => {
+  public resizeColumns() {
     this.columnContainers.forEach(col => {
       const data = (col as any)._data.componentView.component as Partial<DashboardColumnContainer>;
       data.options.api.resize();

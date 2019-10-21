@@ -36,10 +36,8 @@ export class WidgetBarService {
     } else {
       draftWidgets = [...this.widgetBarValue];
       draftWidgets.push(value);
-      console.log(value);
     }
 
-    console.log(draftWidgets);
     this._storageSvc.set(StorageKeys.widgetBar, draftWidgets.map(w => ({ ...w, component: undefined })));
     this._widgetBar.next(draftWidgets);
   }
