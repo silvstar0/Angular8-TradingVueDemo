@@ -11,7 +11,7 @@ export const DashboardColumnOptions = {
   outerMarginLeft: null,
   useTransformPositioning: true,
   mobileBreakpoint: 0,
-  minCols: 1,
+  minCols: 15,
   maxCols: 100,
   minRows: 1,
   maxRows: 100,
@@ -49,7 +49,7 @@ export const DashboardColumnOptions = {
   disablePushOnResize: false,
   pushDirections: {north: true, east: true, south: true, west: true},
   pushResizeItems: false,
-  displayGrid: DisplayGrid.Always,
+  displayGrid: DisplayGrid.OnDragAndResize,
   disableWindowResize: false,
   disableWarnings: false,
   scrollToNewItems: false
