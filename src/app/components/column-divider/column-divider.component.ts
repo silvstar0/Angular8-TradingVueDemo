@@ -38,7 +38,7 @@ export class ColumnDividerComponent implements OnInit, AfterViewInit {
 
     const moveAt = (e) => {
       const left = e.pageX - shiftX - 10;
-      draftLine.style.left = (left > this._contentWidth ? this._contentWidth : left) + 'px';
+      draftLine.style.left = (left > this._contentWidth / 2 + 3 ? this._contentWidth / 2 + 3 : left) + 'px';
       draftLine.style.top = existDividerCoords.top + 'px';
     }
 

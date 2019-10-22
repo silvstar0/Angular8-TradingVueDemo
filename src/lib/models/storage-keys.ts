@@ -1,4 +1,5 @@
 export const StorageKeys = {
+  workspaces: 'workspaces',
   columns: 'columns',
   cards: 'cards',
   widgetBar: 'widget-bar-selectors',

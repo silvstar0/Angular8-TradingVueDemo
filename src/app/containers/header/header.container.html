@@ -1,4 +1,11 @@
 <div class="header">
   <app-title-bar></app-title-bar>
-  <app-widget-bar [columnId]="columnId" (selectChart)="this.selectChart.emit($event)"></app-widget-bar>
+
+  <app-widget-bar
+    [columnId]="columnId"
+    (addWorkspace)="addWorkspace.emit()"
+    (removeWorkspace)="removeWorkspace.emit()"
+    (selectWorkspace)="selectWorkspace.emit($event)"
+    (selectChart)="this.selectChart.emit($event)">
+  </app-widget-bar>
 </div>

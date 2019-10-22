@@ -1,3 +1,4 @@
+export { IWorkspace } from './workspace.interface';
 export { WidgetBarSelectors } from './widget-bar-selectors';
 export { IWidgetComponent } from './widget-component.interface';
 export { IColumn } from './column.interface';

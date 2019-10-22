@@ -1,27 +1,37 @@
 <div class="d-flex flex-column h-100">
-  <app-header [columnId]="columns[activeColumnIndex].id" (selectChart)="selectChart($event)"></app-header>
+  <app-header
+    [columnId]="workspace.columns[activeColumnIndex].id"
+    (addWorkspace)="addWorkspace()"
+    (removeWorkspace)="removeWorkspace()"
+    (selectWorkspace)="selectWorkspace($event)"
+    (selectChart)="selectChart($event)">
+  </app-header>
 
   <div class="d-flex mt-3 mb-3 w-100 h-100">
-    <ng-container *ngFor="let column of columns; let i = index">
-      <div *ngIf="columnsWidths[i] > 5" [style.width]="columnsWidths[i] + '%'" class="flex-column d-flex h-100">
-        <div class="action-panel d-flex mb-2">
+    <ng-container *ngFor="let column of workspace?.columns; let i = index">
+      <div *ngIf="column.width > 5" [style.width]="column.width + '%'" class="flex-column d-flex h-100">
+        <!-- <div class="action-panel d-flex mb-2">
           <div class="ml-auto">
             <button class="action-panel__button mr-2" [class.action-panel__button_active]="activeColumnIndex === i" (click)="activeColumnIndex = i">
               <span class="material-icons">select_all</span>
             </button>
           </div>
-        </div>
+        </div> -->
         <app-dashboard-column
           (click)="activeColumnIndex = i"
+          (removeWidget)="resizeColumns()"
+          (minimizeWidget)="resizeColumns()"
           #columnContainer
           [column]="column"
           [columnData]="getWidgetsDataByColumnId(column.id)"
           [class.dashboard-column_active]="activeColumnIndex === i"
-          class="h-100 dashboard-column">
+          class="h-100 dashboard-column"
+          [class.mr-3]="i === workspace.columns.length - 1"
+        >
         </app-dashboard-column>
       </div>
 
-      <app-column-divider *ngIf="i !== columns.length - 1" (divide)="calcColumnSize($event)"></app-column-divider>
+      <app-column-divider *ngIf="i !== workspace.columns.length - 1" (divide)="calcColumnSize($event)"></app-column-divider>
     </ng-container>
   </div>
 </div>

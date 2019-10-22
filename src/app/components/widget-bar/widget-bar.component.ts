@@ -16,10 +16,10 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 
-import { WidgetBarService } from '@app/core/services';
+import { WidgetBarService, WorkspaceService } from '@app/core/services';
 
 
-import { IWidget } from '@lib/models';
+import { IWidget, IWorkspace } from '@lib/models';
 
 @Component({
   selector: 'app-widget-bar',
@@ -37,7 +37,16 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
   public columnId: number;
 
   @Output()
-  public selectChart = new EventEmitter<IWidget>();
+  public readonly selectChart = new EventEmitter<IWidget>();
+
+  @Output()
+  public readonly selectWorkspace = new EventEmitter<{ workspace: IWorkspace, index: number }>();
+
+  @Output()
+  public readonly addWorkspace = new EventEmitter();
+
+  @Output()
+  public readonly removeWorkspace = new EventEmitter();
 
   public hoveredWidgetIndex: number;
 
@@ -50,6 +59,7 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
   private _currentLoaderId: string;
 
   constructor(
+    public workspaceSvc: WorkspaceService,
     private _cfr: ComponentFactoryResolver,
     private _ngxLoaderSvc: NgxUiLoaderService,
     private _widgetBarSvc: WidgetBarService,
@@ -79,10 +89,14 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
     
         this.pinnedWidgetSelectors = this.pinnedWidgetSelectors.map(widget => this._widgetBarSvc.addComponentToWidget(widget));
         this.widgetSelectors = this.widgetSelectors.map(widget => this._widgetBarSvc.addComponentToWidget(widget));
-      })
+      });
   }
 
   public ngOnDestroy() {}
+
+  public touchWorkspace(workspace: IWorkspace, index: number) {
+    this.selectWorkspace.emit({ workspace, index });
+  }
 
   public selectBar(widget: IWidget) {
     if (this.editMode || !this.columnId) {
@@ -99,6 +113,7 @@ export class WidgetBarComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       const customWidgetId = widgets[widgets.length - 1].id + 1 || 1;
       const draftWidget = { ...widget, id: customWidgetId, inDashboard: true, columnId: this.columnId, isCustom: true };
+
       this._widgetBarSvc.updateWidget(draftWidget);
       this.selectChart.emit(draftWidget);
     }

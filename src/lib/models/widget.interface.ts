@@ -1,6 +1,5 @@
 export interface IWidget {
   id: number;
-  connectedBarWidget: number;
   title: string;
   cols: number;
   rows: number;

@@ -5,15 +5,17 @@
     (mouseleave)="currentGridItemIndex = undefined"
   >
   <div class="gridster-item__actions">
-    <button class="gridster-item__button" (click)="showSettings()">
-      <span class="material-icons gridster-item__button-icon">settings_applications</span>
-    </button>
-    <button class="gridster-item__button" (click)="minimizeItem($event, item)">
-      <span class="material-icons gridster-item__button-icon">remove</span>
-    </button>
-    <button class="gridster-item__button" (click)="removeItem($event, item)">
-      <span class="material-icons gridster-item__button-icon">close</span>
-    </button>
+    <div class="gridster-item-content">
+      <button class="gridster-item__button" (click)="showSettings()">
+        <span class="material-icons gridster-item__button-icon">settings_applications</span>
+      </button>
+      <button class="gridster-item__button" (click)="minimizeItem($event, item)">
+        <span class="material-icons gridster-item__button-icon">remove</span>
+      </button>
+      <button class="gridster-item__button" (click)="removeItem($event, item)">
+        <span class="material-icons gridster-item__button-icon">close</span>
+      </button>
+    </div>
   </div>
 
     <div class="gridster-item__content">
