@@ -33,7 +33,7 @@ export class ColumnDividerComponent implements OnInit, AfterViewInit {
   public onResizeStart = divider => event => {
     const existDividerCoords = this.getElementCoords(event.target);
     const shiftX = event.pageX - existDividerCoords.left;
-    
+
     const draftLine = this.createDraftLine(divider);
 
     const moveAt = (e) => {

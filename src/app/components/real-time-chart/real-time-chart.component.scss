@@ -1,0 +1,9 @@
+:host {
+    height: 100%;
+    display: block;
+}
+
+// 23px is a header of column, so we need to remove it from 100%
+.tv-chart {
+    height: calc(100% - 23px);
+}

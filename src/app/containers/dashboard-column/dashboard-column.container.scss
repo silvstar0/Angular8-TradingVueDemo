@@ -6,6 +6,8 @@ gridster {
 
 gridster-item .iframe-container {
   pointer-events: initial;
+  width: 100%;
+  height: 100%;
 }
 
 .gridster-item-moving .iframe-container {
@@ -14,6 +16,11 @@ gridster-item .iframe-container {
 
 .gridster-item-resizing .iframe-container {
   pointer-events: none;
+}
+
+.gridster-item__content {
+  height: 100%;
+  width: 100%;
 }
 
 .gridster-item {

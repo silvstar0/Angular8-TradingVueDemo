@@ -21,9 +21,10 @@
     <div class="gridster-item__content">
       <div class="iframe-container">
         <ng-container [ngSwitch]="item.type">
-          <app-real-time-chart 
+          <app-real-time-chart
             *ngSwitchCase="chartTypes.RealTimeChart" 
-            #realTimeChart 
+            #realTimeChart
+            [autosize]="true"
             [widget]="item" 
             [data]="getWidgetsDataByWidgetId(item.id)" 
             [drawDataset]="setupGridsterData(cardIndex, gridsterItem, realTimeChart)" 

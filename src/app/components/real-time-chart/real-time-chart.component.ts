@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, AfterViewInit } from '@angular/core';
 import { IWidgetComponent, IWidget } from '@lib/models';
 import { ChartingLibraryWidgetOptions, widget, IChartingLibraryWidget } from 'assets/charting_library/charting_library.min';
 
@@ -7,8 +7,10 @@ import { ChartingLibraryWidgetOptions, widget, IChartingLibraryWidget } from 'as
   templateUrl: './real-time-chart.component.html',
   styleUrls: ['./real-time-chart.component.scss'],
 })
-export class RealTimeChartComponent implements OnInit, IWidgetComponent {
+export class RealTimeChartComponent implements AfterViewInit, IWidgetComponent {
 
+  @Input()
+  public autosize = false;
 
   @Input()
   public drawDataset: any;
@@ -31,7 +33,7 @@ export class RealTimeChartComponent implements OnInit, IWidgetComponent {
   private _clientId: ChartingLibraryWidgetOptions['client_id'] = 'tradingview.com';
   private _userId: ChartingLibraryWidgetOptions['user_id'] = 'public_user_id';
   private _fullscreen: ChartingLibraryWidgetOptions['fullscreen'] = false;
-  private _autosize: ChartingLibraryWidgetOptions['autosize'] = false;
+  private _autosize: ChartingLibraryWidgetOptions['autosize'];
   private _theme: ChartingLibraryWidgetOptions['theme'] = 'Dark';
   private _disabled_features: ChartingLibraryWidgetOptions['disabled_features'] = ['use_localstorage_for_settings', 'left_toolbar'];
   private _enabled_features: ChartingLibraryWidgetOptions['enabled_features'] = ['study_templates'];
@@ -52,7 +54,8 @@ export class RealTimeChartComponent implements OnInit, IWidgetComponent {
 
   public constructor() { }
 
-  public ngOnInit(): void {
+  public ngAfterViewInit(): void {
+    this._autosize = this.autosize;
     this.init();
   }
 
@@ -87,6 +90,5 @@ export class RealTimeChartComponent implements OnInit, IWidgetComponent {
 
     const tvWidget = new widget(widgetOptions);
     this._tvWidget = tvWidget;
-
   }
 }
