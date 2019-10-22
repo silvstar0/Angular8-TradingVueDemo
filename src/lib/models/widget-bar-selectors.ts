@@ -4,7 +4,6 @@ import { ChartTypes } from './chart-types.enum';
 export const WidgetBarSelectors: IWidget[] = [
   {
     id: 1,
-    connectedBarWidget: 1,
     pinned: true,
     cols: 2,
     rows: 2,
@@ -18,7 +17,6 @@ export const WidgetBarSelectors: IWidget[] = [
   },
   {
     id: 2,
-    connectedBarWidget: 2,
     pinned: true,
     cols: 2,
     rows: 2,
@@ -30,7 +28,6 @@ export const WidgetBarSelectors: IWidget[] = [
   },
   {
     id: 3,
-    connectedBarWidget: 3,
     pinned: true,
     cols: 2,
     rows: 2,
@@ -42,7 +39,6 @@ export const WidgetBarSelectors: IWidget[] = [
   },
   {
     id: 4,
-    connectedBarWidget: 4,
     pinned: false,
     cols: 2,
     rows: 2,
@@ -54,7 +50,6 @@ export const WidgetBarSelectors: IWidget[] = [
   },
   {
     id: 5,
-    connectedBarWidget: 5,
     pinned: false,
     cols: 2,
     rows: 2,
@@ -66,7 +61,6 @@ export const WidgetBarSelectors: IWidget[] = [
   },
   {
     id: 6,
-    connectedBarWidget: 6,
     pinned: false,
     cols: 2,
     rows: 2,

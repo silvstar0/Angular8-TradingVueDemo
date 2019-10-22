@@ -11,5 +11,14 @@ export class HeaderContainer {
   public columnId: number;
 
   @Output()
-  public selectChart = new EventEmitter<IWidget>();
+  public readonly selectChart = new EventEmitter<IWidget>();
+
+  @Output()
+  public readonly addWorkspace = new EventEmitter();
+
+  @Output()
+  public readonly removeWorkspace = new EventEmitter();
+
+  @Output()
+  public readonly selectWorkspace = new EventEmitter();
 }
