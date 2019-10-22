@@ -8,6 +8,7 @@ import { StockMarketChartComponent } from '@app/components/stock-market-chart/st
 import { MarketOverviewChartComponent } from '@app/components/market-overview-chart/market-overview-chart.component';
 import { RealTimeChartComponent } from '@app/components/real-time-chart/real-time-chart.component';
 import { AgTableGridComponent } from '@app/components/ag-table-grid/ag-table-grid.component';
+import { MonacoEditorComponent } from '@app/components/monaco-editor/monaco-editor.component';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class WidgetBarService {
   private _widgetBar = new BehaviorSubject<IWidget[]>(this._storageSvc.get(StorageKeys.widgetBar) || WidgetBarSelectors);
 
   public get widgetBarValue(): IWidget[]  {
-    return this._widgetBar.value;
+    return (this._widgetBar as any).value;
   }
 
   public get data(): Observable<IWidget[]> {
@@ -34,8 +35,7 @@ export class WidgetBarService {
     if (existWidget) {
       draftWidgets = this.widgetBarValue.map(widget => widget.id === value.id ? value : widget);
     } else {
-      draftWidgets = [...this.widgetBarValue];
-      draftWidgets.push(value);
+      draftWidgets = [...this.widgetBarValue, value];
     }
 
     this._storageSvc.set(StorageKeys.widgetBar, draftWidgets.map(w => ({ ...w, component: undefined })));
@@ -57,7 +57,7 @@ export class WidgetBarService {
   }
 
   public addComponentToWidget(widget: IWidget) {
-    let component = undefined;
+    let component;
 
     switch (widget.type) {
       case ChartTypes.MarketOverviewChart:
@@ -71,6 +71,9 @@ export class WidgetBarService {
         break;
       case ChartTypes.AgTableGrid:
         component = AgTableGridComponent;
+        break;
+      case ChartTypes.MonacoEditor:
+        component = MonacoEditorComponent;
         break;
     }
 

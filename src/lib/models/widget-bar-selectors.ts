@@ -70,4 +70,15 @@ export const WidgetBarSelectors: IWidget[] = [
     type: ChartTypes.StockMarketChart,
     drawDataset: undefined,
   },
+  {
+    id: 7,
+    pinned: false,
+    cols: 8,
+    rows: 4,
+    inDashboard: false,    
+    title: 'Monaco Editor',
+    component: undefined,
+    type: ChartTypes.MonacoEditor,
+    drawDataset: undefined,
+  },
 ];

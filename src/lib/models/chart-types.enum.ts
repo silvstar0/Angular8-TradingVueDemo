@@ -3,4 +3,5 @@ export const ChartTypes = {
   RealTimeChart: 'RealTimeChart',
   StockMarketChart: 'StockMarketChart',
   AgTableGrid: 'AgTableGrid',
+  MonacoEditor: 'MonacoEditor',
 }
