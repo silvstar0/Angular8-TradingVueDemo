@@ -70,7 +70,7 @@ export class AppComponent implements OnInit {
   }
 
   public calcColumnSize(size) {
-    const [ left, right ] = this.columns.filter(c => c.workspaceId === 1);
+    const [ left, right ] = this.columns.filter(c => c.workspaceId === this.workspace.id);
     const draftSizes = {
       left: size.left >= 50 ? 50 : size.left,
       right: size.left >= 50 ? 50 : size.right,
