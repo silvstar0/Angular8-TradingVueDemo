@@ -1,0 +1,78 @@
+<div
+  [style.z-index]="widgetIndex+1000"
+  class="widget__container"
+  ngResizable
+  rzHandles="se,sw"
+  ngDraggable
+  [handle]="dragHandle"
+  [bounds]="dragBounds"
+  [inBounds]="true">
+
+  <div class="widget__actions">
+    <div #dragHandle class="widget__drag-handle"></div>
+    <div>
+      <button class="widget__button" (click)="onShowSettings.emit()">
+        <span class="material-icons widget__button-icon">settings_applications</span>
+      </button>
+      <button class="widget__button" (click)="minimizeItem($event)">
+        <span class="material-icons widget__button-icon">remove</span>
+      </button>
+      <button class="widget__button" (click)="removeItem($event)">
+        <span class="material-icons widget__button-icon">close</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="widget__content">
+    <ng-container [ngSwitch]="widget.type">
+      <app-real-time-chart
+        *ngSwitchCase="chartTypes.RealTimeChart"
+        #realTimeChart
+        [autosize]="true"
+        [widget]="widget" 
+        [data]="widgetData" 
+        [drawDataset]="setupGridsterData(realTimeChart)" 
+        class="w-100"
+        [symbol]="symbol"
+        ></app-real-time-chart>
+
+      <app-stock-market-chart
+        *ngSwitchCase="chartTypes.StockMarketChart"
+        #stockMarketChart 
+        [widget]="widget" 
+        [data]="widgetData" 
+        [drawDataset]="setupGridsterData(stockMarketChart)" 
+        class="w-100"
+        ></app-stock-market-chart>
+
+      <app-market-overview-chart
+        *ngSwitchCase="chartTypes.MarketOverviewChart"
+        #overviewMarketChart
+        [widget]="widget" 
+        [data]="widgetData" 
+        [drawDataset]="setupGridsterData(overviewMarketChart)" 
+        class="w-100"
+        ></app-market-overview-chart>
+
+      <app-ag-table-grid
+        (symbolChanged)="onSymbolChanged($event)"
+        *ngSwitchCase="chartTypes.AgTableGrid"
+        #agTableGrid
+        [autosize]="true"
+        [widget]="widget"
+        [data]="widgetData"
+        [drawDataset]="setupGridsterData(agTableGrid)"
+        class="w-100"></app-ag-table-grid>
+
+      <app-monaco-editor
+        (symbolChanged)="onSymbolChanged($event)"
+        *ngSwitchCase="chartTypes.MonacoEditor"
+        #monacoEditor
+        [autosize]="true"
+        [widget]="widget"
+        [data]="widgetData"
+        [drawDataset]="setupGridsterData(monacoEditor)"
+        class="w-100"></app-monaco-editor>
+    </ng-container>
+  </div>
+</div>

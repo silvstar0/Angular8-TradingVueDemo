@@ -1,66 +1,13 @@
-<gridster [options]="options">
-    <gridster-item
-      *ngFor="let item of column.cards; let cardIndex = index" #gridsterItem [item]="item"
-      (mouseenter)="currentGridItemIndex = cardIndex"
-      (mouseleave)="currentGridItemIndex = undefined"
-    >
-    <div class="gridster-item__actions">
-      <div class="gridster-item-content">
-        <button class="gridster-item__button" (click)="showSettings()">
-          <span class="material-icons gridster-item__button-icon">settings_applications</span>
-        </button>
-        <button class="gridster-item__button" (click)="minimizeItem($event, item)">
-          <span class="material-icons gridster-item__button-icon">remove</span>
-        </button>
-        <button class="gridster-item__button" (click)="removeItem($event, item)">
-          <span class="material-icons gridster-item__button-icon">close</span>
-        </button>
-      </div>
-    </div>
-  
-      <div class="gridster-item__content">
-        <ng-container [ngSwitch]="item.type">
-          <div *ngSwitchCase="chartTypes.RealTimeChart" class="iframe-container">
-            <app-real-time-chart
-              #realTimeChart
-              [autosize]="true"
-              [widget]="item" 
-              [data]="getWidgetsDataByWidgetId(item.id)" 
-              [drawDataset]="setupGridsterData(cardIndex, gridsterItem, realTimeChart)" 
-              class="w-100"
-              [symbol]="symbol"
-              >
-            </app-real-time-chart>
-          </div>
-          <div *ngSwitchCase="chartTypes.StockMarketChart" class="iframe-container">
-            <app-stock-market-chart 
-              #stockMarketChart 
-              [widget]="item" 
-              [data]="getWidgetsDataByWidgetId(item.id)" 
-              [drawDataset]="setupGridsterData(cardIndex, gridsterItem, stockMarketChart)" 
-              class="w-100"
-              >
-            </app-stock-market-chart>
-          </div>
-          <div *ngSwitchCase="chartTypes.MarketOverviewChart" class="iframe-container">
-            <app-market-overview-chart 
-              #overviewMarketChart
-              [widget]="item" 
-              [data]="getWidgetsDataByWidgetId(item.id)" 
-              [drawDataset]="setupGridsterData(cardIndex, gridsterItem, overviewMarketChart)" 
-              class="w-100"
-              >
-            </app-market-overview-chart>
-          </div>
-        </ng-container>
-  
-        <div class="gridster-item-content widget-editor" [style.backgroundColor]="item.type === chartTypes.MonacoEditor ? '#1E1E1E' : 'transparent'">
-          <ng-container [ngSwitch]="item.type">
-            <app-ag-table-grid (symbolChanged)="onSymbolChanged($event)" *ngSwitchCase="chartTypes.AgTableGrid" #agTableGrid [autosize]="true" [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, agTableGrid)" class="w-100"></app-ag-table-grid>
-            <app-monaco-editor (symbolChanged)="onSymbolChanged($event)" *ngSwitchCase="chartTypes.MonacoEditor" #monacoEditor [autosize]="true" [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, monacoEditor)" class="w-100"></app-monaco-editor>
-          </ng-container>
-        </div>
-      </div>
-    </gridster-item>
-  </gridster>
-  
+<div class="drag-bounds" #dragBounds>
+  <app-widget
+    *ngFor="let widget of column.cards; let widgetIndex = index"
+    [style.position]="'absolute'"
+    [dragBounds]="dragBounds"
+    [widgetIndex]="widgetIndex"
+    [widgetData]="getWidgetsDataByWidgetId(widget.id)"
+    [widget]="widget"
+    (onMinimizeItem)="minimizeItem($event)"
+    (onRemoveItem)="removeItem($event)"
+  >
+  </app-widget>
+</div>

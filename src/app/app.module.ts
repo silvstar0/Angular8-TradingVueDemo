@@ -4,7 +4,7 @@ import { FormsModule }   from '@angular/forms';
 import { MonacoEditorModule, NgxMonacoEditorConfig } from 'ngx-monaco-editor';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { GridsterModule } from 'angular-gridster2';
+import { AngularDraggableModule } from 'angular2-draggable';
 import { NgxUiLoaderModule } from 'ngx-ui-loader';
 import { AgGridModule } from 'ag-grid-angular';
 
@@ -24,6 +24,7 @@ import {
 
   AgTableGridComponent,
   MonacoEditorComponent,
+  WidgetComponent,
 } from './components';
 
 const CONTAINERS = [
@@ -35,6 +36,7 @@ const COMPONENTS = [
   TitleBarComponent,
   WidgetBarComponent,
   ColumnDividerComponent,
+  WidgetComponent,
 
   // charts
   RealTimeChartComponent,
@@ -73,7 +75,7 @@ const monacoConfig: NgxMonacoEditorConfig = {
     AgGridModule.withComponents([]),
 
     NgxUiLoaderModule,
-    GridsterModule,
+    AngularDraggableModule,
     DragDropModule,
   ],
   providers: [],

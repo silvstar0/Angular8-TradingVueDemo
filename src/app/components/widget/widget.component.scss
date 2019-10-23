@@ -1,0 +1,46 @@
+@import 'variables';
+.widget {
+  &__container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    background: #2D3436;
+  }
+  
+  &__drag-handle {
+    flex: 1;
+  }
+  
+  &__content {
+    height: calc(100% - 23px);
+    width: 100%;
+  }
+
+  &__actions {
+    cursor: grab;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #efefef;
+  }
+
+  &__button {
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: $base-animation-duration;
+
+    &:hover {
+      background: rgba($dark, 0.2);
+    }
+
+    &:active {
+      background: rgba($dark, 0.5);
+    }
+
+    &-icon {
+      font-size: 18px;
+    }
+  }
+}

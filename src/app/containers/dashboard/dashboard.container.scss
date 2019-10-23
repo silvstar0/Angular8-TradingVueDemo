@@ -1,57 +1,7 @@
 @import 'variables';
 
-gridster {
-  background: #1E3864;
-}
-
-gridster-item .iframe-container {
-  pointer-events: initial;
+.drag-bounds {
   width: 100%;
   height: 100%;
-}
-
-.gridster-item-moving .iframe-container {
-  pointer-events: none;
-}
-
-.gridster-item-resizing .iframe-container {
-  pointer-events: none;
-}
-
-.gridster-item__content {
-  height: calc(100% - 23px);
-  width: 100%;
-}
-
-.widget-editor {
-  height: 100%;
-}
-
-.gridster-item {
-  &__actions {
-    cursor: grab;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  &__button {
-    background: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    transition: $base-animation-duration;
-
-    &:hover {
-      background: rgba($dark, 0.2);
-    }
-
-    &:active {
-      background: rgba($dark, 0.5);
-    }
-
-    &-icon {
-      font-size: 18px;
-    }
-  }
+  border: 1px dashed #A4B7C1;
 }
