@@ -52,7 +52,6 @@ const entryComponents = [
   MarketOverviewChartComponent,
   AgTableGridComponent,
   MonacoEditorComponent,
-
 ];
 
 const monacoConfig: NgxMonacoEditorConfig = {

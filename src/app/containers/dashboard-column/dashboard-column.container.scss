@@ -19,8 +19,12 @@ gridster-item .iframe-container {
 }
 
 .gridster-item__content {
-  height: 100%;
+  height: calc(100% - 23px);
   width: 100%;
+}
+
+.widget-editor {
+  height: 100%;
 }
 
 .gridster-item {

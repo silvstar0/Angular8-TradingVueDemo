@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { IWidget, IWidgetComponent } from '@lib/models';
 
 @Component({
@@ -7,6 +7,11 @@ import { IWidget, IWidgetComponent } from '@lib/models';
   styleUrls: ['./monaco-editor.component.scss'],
 })
 export class MonacoEditorComponent implements IWidgetComponent, OnInit {
+  public canShow = false;
+
+  @Input()
+  public autosize = false;
+
   @Input()
   public drawDataset: any;
 
@@ -19,34 +24,25 @@ export class MonacoEditorComponent implements IWidgetComponent, OnInit {
   @Output()
   public readonly symbolChanged = new EventEmitter<string>();
 
-  public width: number;
-  public height: number;
+  public width = 400;
+  public height = 600;
 
   public editorOptions = {
     theme: 'vs-dark',
-    selectOnLineNumbers: 'true',
+    selectOnLineNumbers: true,
+    automaticLayout: true,
   };
 
   public code = '';
 
-  constructor(
-    private _cdr: ChangeDetectorRef,
-  ) {}
+  constructor() {}
 
   public ngOnInit() {
     this.init();
   }
 
-  public init(resetData?: any) {
-    this.width = resetData && resetData.width
-      ? Math.floor(resetData.width)
-      : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
-
-    this.height = resetData && resetData.height
-      ? Math.floor(resetData.height)
-      : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 600;
-
-      this._cdr.detectChanges();
+  public init(_?: any) {
+    setTimeout(() => this.canShow = true);
   }
 
   public onKeyUp() {

@@ -1,4 +1,4 @@
-<div [style.height]="height+'px'" [style.width]="width+'px'">
+<div *ngIf="canShow" [style.height]="autosize ? '100%' : height + 'px'" [style.width]="autosize ? '100%' : width + 'px'">
     <ngx-monaco-editor
         style="height: 100%; width: 100%;"
         class="my-code-editor"
