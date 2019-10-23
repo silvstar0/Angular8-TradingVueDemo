@@ -56,7 +56,7 @@
   
         <div class="gridster-item-content widget-editor" [style.backgroundColor]="item.type === chartTypes.MonacoEditor ? '#1E1E1E' : 'transparent'">
           <ng-container [ngSwitch]="item.type">
-            <app-ag-table-grid (symbolChanged)="onSymbolChanged($event)" *ngSwitchCase="chartTypes.AgTableGrid" #agTableGrid [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, agTableGrid)" class="w-100"></app-ag-table-grid>
+            <app-ag-table-grid (symbolChanged)="onSymbolChanged($event)" *ngSwitchCase="chartTypes.AgTableGrid" #agTableGrid [autosize]="true" [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, agTableGrid)" class="w-100"></app-ag-table-grid>
             <app-monaco-editor (symbolChanged)="onSymbolChanged($event)" *ngSwitchCase="chartTypes.MonacoEditor" #monacoEditor [autosize]="true" [widget]="item" [data]="getWidgetsDataByWidgetId(item.id)" [drawDataset]="setupGridsterData(cardIndex, gridsterItem, monacoEditor)" class="w-100"></app-monaco-editor>
           </ng-container>
         </div>

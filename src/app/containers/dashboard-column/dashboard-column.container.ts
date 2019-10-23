@@ -52,9 +52,7 @@ export class DashboardColumnContainer implements OnInit {
         const component = (element.item.component as any);
 
         if (component) {
-          // const { height, width } = element;
-          // const contentHeight = component.widget.type === ChartTypes.MonacoEditor ? height : height - this._activePanelHeight;
-          // component.init({ height: contentHeight, width });
+          component.onResize();
         }
       },
     }

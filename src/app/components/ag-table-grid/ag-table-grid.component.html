@@ -1,12 +1,12 @@
 <ag-grid-angular
-  [style.width]="width + 'px'"
-  [style.height]="height + 'px'"
+  #agGrid
+  [style.width]="autosize ? '100%' : width + 'px'"
+  [style.height]="autosize ? '100%' : height + 'px'"
   class="ag-theme-balham-dark"
   [rowData]="rowData" 
   [columnDefs]="columnDefs"
   [defaultColDef]="{ editable: true, resizable: true }"
   [colResizeDefault]="'shift'"
   (rowClicked)="onRowClicked($event)"
-  
-  #agGrid
 ></ag-grid-angular>
+

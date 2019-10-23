@@ -5,9 +5,11 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
+  ViewChild,
 } from '@angular/core';
 import { IWidgetComponent, IWidget } from '@lib/models';
 import { GridQuotesService } from '@app/core/services/grid-quotes.service';
+import { AgGridAngular } from 'ag-grid-angular';
 
 @Component({
   selector: 'app-ag-table-grid',
@@ -16,6 +18,12 @@ import { GridQuotesService } from '@app/core/services/grid-quotes.service';
 })
 
 export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy {
+  @ViewChild('agGrid', { static: true })
+  public agGrid: AgGridAngular;
+
+  @Input()
+  public autosize = false;
+
   @Input()
   public drawDataset: any;
 
@@ -28,8 +36,8 @@ export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy
   @Output()
   public readonly symbolChanged = new EventEmitter<string>();
 
-  public width: number;
-  public height: number;
+  public width = 400;
+  public height = 250;
   public rowData: any;
 
   columnDefs = [
@@ -57,22 +65,27 @@ export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy
 
   public ngOnDestroy() {}
 
-  public init(resetData?: any) {
-    this.width = resetData && resetData.width 
-      ? Math.floor(resetData.width) : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
-    this.height = resetData && resetData.height 
-      ? Math.floor(resetData.height) : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 660;
-    
+  public init(_?: any) {
+
   }
 
-  // public change(e) {
-  //   const { data, rowIndex } = e;
+  public onResize = () => {
+    if (this.autosize) {
+      this.autoSizeAll();
+    }
+  }
 
-  //   this.rowData = this.rowData.map((row, index) => rowIndex === index ? data : row);
-  //   this._widgetDataSvc.updateByWidgetId(this.widget.id, this.widget.columnId, { rowData: this.rowData, columnDefs: this.columnDefs });
-  // }
+  public autoSizeAll() {
+    var allColumnIds = [];
 
-  onRowClicked(event: { data: { v: { short_name: string; }; }; }) {
+    this.agGrid.columnApi.getAllColumns().forEach(function(column) {
+        allColumnIds.push(column.getId());
+    });
+
+    this.agGrid.columnApi.autoSizeColumns(allColumnIds);
+}
+
+  public onRowClicked(event: { data: { v: { short_name: string; }; }; }) {
     const symbol: string = event.data.v.short_name;
     this.symbolChanged.emit(symbol);
   }
