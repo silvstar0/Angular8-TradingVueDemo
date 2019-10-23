@@ -17,6 +17,9 @@ export class WidgetComponent implements OnInit {
   @Output()
   public onShowSettings = new EventEmitter<any>();
 
+  @Output()
+  public onSelectWidget = new EventEmitter<any>();
+
   @Input()
   public widget: IWidget;
 
@@ -55,6 +58,10 @@ export class WidgetComponent implements OnInit {
 
   public onSymbolChanged(symbol: string) {
     this.symbol = symbol;
+  }
+
+  public selectWidget() {
+    this.onSelectWidget.emit({ widget: this.widget, index: this.widgetIndex });
   }
 
   public setupGridsterData(component) {

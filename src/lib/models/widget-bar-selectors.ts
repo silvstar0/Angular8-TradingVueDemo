@@ -5,6 +5,7 @@ export const WidgetBarSelectors: IWidget[] = [
   {
     id: 1,
     pinned: true,
+    zIndex: 100,
     cols: 8,
     rows: 8,
     inDashboard: false,
@@ -18,6 +19,7 @@ export const WidgetBarSelectors: IWidget[] = [
   {
     id: 2,
     pinned: true,
+    zIndex: 100,
     cols: 6,
     rows: 9,
     inDashboard: false,
@@ -29,6 +31,7 @@ export const WidgetBarSelectors: IWidget[] = [
   {
     id: 3,
     pinned: true,
+    zIndex: 100,
     cols: 6,
     rows: 9,
     inDashboard: false,
@@ -40,6 +43,7 @@ export const WidgetBarSelectors: IWidget[] = [
   {
     id: 4,
     pinned: false,
+    zIndex: 100,
     cols: 8,
     rows: 4,
     inDashboard: false,
@@ -51,6 +55,7 @@ export const WidgetBarSelectors: IWidget[] = [
   {
     id: 5,
     pinned: false,
+    zIndex: 100,
     cols: 5,
     rows: 8,
     inDashboard: false,
@@ -62,6 +67,7 @@ export const WidgetBarSelectors: IWidget[] = [
   {
     id: 6,
     pinned: false,
+    zIndex: 100,
     cols: 6,
     rows: 9,
     inDashboard: false,
@@ -73,6 +79,7 @@ export const WidgetBarSelectors: IWidget[] = [
   {
     id: 7,
     pinned: false,
+    zIndex: 100,
     cols: 8,
     rows: 4,
     inDashboard: false,    

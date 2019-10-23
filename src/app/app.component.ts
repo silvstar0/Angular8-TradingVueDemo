@@ -38,14 +38,19 @@ export class AppComponent implements OnInit, OnDestroy {
     private _widgetBarSvc: WidgetBarService,
   ) {}
 
+  private _maxWidgetZindex: number;
 
   public ngOnInit() {
     this.activeWorkspaceIndex = 0;
+    const widgets = this._widgetBarSvc.widgetBarValue;
+    this._maxWidgetZindex = Math.max(
+      ...widgets.map(c => c.zIndex)
+    );
     
     this.workspaceSvc.activeWorkspace.pipe(untilDestroyed(this)).subscribe(worksp => {
       this.columns = this._storageSvc.get(StorageKeys.columns) || this._defaultColumns.map(c => ({ ...c, id: +`${worksp.id}${c.id}` }));
 
-      this.columns = this.columns.map(c => ({ ...c, cards: this._widgetBarSvc.widgetBarValue.filter(widget => widget.columnId === c.id && widget.inDashboard) }));
+      this.columns = this.columns.map(c => ({ ...c, cards: widgets.filter(widget => widget.columnId === c.id && widget.inDashboard)}));
       this.workspace = {...worksp, column: this.columns.find(c => c.workspaceId === worksp.id)};
       this.columnDataset = this._widgetDataSvc.data ? this._widgetDataSvc.data.find(d => d.columnId === this.workspace.column.id) : undefined;
     });
@@ -56,12 +61,24 @@ export class AppComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {}
 
   public selectChart(widget: IWidget) {
+    this._maxWidgetZindex += 1;
+    widget.zIndex = this._maxWidgetZindex;
+
     this.workspace.column.cards.push(this._widgetBarSvc.addComponentToWidget(widget));
+  }
+
+  public increaseWidgetZindex({ index }) {
+    const cardToUpdate = this.workspace.column.cards[index];
+    this._maxWidgetZindex += 1;
+    cardToUpdate.zIndex = this._maxWidgetZindex;
+
+    this._widgetBarSvc.updateWidget(cardToUpdate);
   }
 
   public selectWorkspace({ workspace, index }) {
     const columns = this.columns.filter(c => c.workspaceId === workspace.id);
     this.activeWorkspaceIndex = index;
+
     this.workspace = { ...workspace, columns: columns.length ? columns : this._defaultColumns };
   }
 

@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { ChartTypes, IColumn } from '@lib/models';
+import { ChartTypes, IColumn, IWidget } from '@lib/models';
 import { WidgetBarService } from '@app/core/services';
 
 @Component({
@@ -15,9 +15,12 @@ export class DashboardContainer {
   @Input()
   public columnData: any;
 
+  @Output()
+  public selectWidget = new EventEmitter<any>()
+
   public chartTypes = ChartTypes;
 
-  public get columnCards(): any[] {
+  public get columnCards(): IWidget[] {
     return this.column.cards;
   }
 
@@ -28,7 +31,6 @@ export class DashboardContainer {
   public getWidgetsDataByWidgetId(widgetId): any[] {
     return this.columnData ? this.columnData.widgets.find(widget => widget.id === widgetId) : undefined;
   }
-
 
   public removeItem(item) {
     this._widgetBarSvc.removeWidget(item);

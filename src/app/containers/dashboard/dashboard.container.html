@@ -8,6 +8,7 @@
     [widget]="widget"
     (onMinimizeItem)="minimizeItem($event)"
     (onRemoveItem)="removeItem($event)"
+    (onSelectWidget)="selectWidget.emit($event)"
   >
   </app-widget>
 </div>

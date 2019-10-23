@@ -7,7 +7,8 @@ export interface IWidget {
   type: string;
   drawDataset: any;
   pinned: boolean;
+  inDashboard: boolean;
+  zIndex: number;
   columnId?: number;
   isCustom?: boolean;
-  inDashboard: boolean;
 };

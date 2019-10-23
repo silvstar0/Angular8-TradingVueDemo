@@ -1,11 +1,12 @@
 <div
-  [style.z-index]="widgetIndex+1000"
+  [style.z-index]="widget.zIndex+10"
   class="widget__container"
   ngResizable
   rzHandles="se,sw"
   ngDraggable
   [handle]="dragHandle"
   [bounds]="dragBounds"
+  (mousedown)="selectWidget()"
   [inBounds]="true">
 
   <div class="widget__actions">

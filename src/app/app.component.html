@@ -12,6 +12,7 @@
         #columnContainer
         [column]="workspace.column"
         [columnData]="columnDataset"
+        (selectWidget)="increaseWidgetZindex($event)"
         class="h-100 w-100 dashboard-column mr-3"
       >
       </app-dashboard>
