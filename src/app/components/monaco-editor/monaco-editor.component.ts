@@ -38,12 +38,10 @@ export class MonacoEditorComponent implements IWidgetComponent, OnInit {
   constructor() {}
 
   public ngOnInit() {
-    this.init();
-  }
-
-  public init(_?: any) {
     setTimeout(() => this.canShow = true);
   }
+
+  public onResize = (_?: any) => {}
 
   public onKeyUp() {
     const symbol: string = this.code.replace(/(\r\n|\n|\r)/gm, '');

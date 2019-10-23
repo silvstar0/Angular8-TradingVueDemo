@@ -69,7 +69,7 @@ export class AgTableGridComponent implements OnInit, IWidgetComponent, OnDestroy
 
   }
 
-  public onResize = () => {
+  public onResize = (_?: any) => {
     if (this.autosize) {
       this.autoSizeAll();
     }

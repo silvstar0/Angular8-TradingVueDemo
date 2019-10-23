@@ -4,5 +4,5 @@ export interface IWidgetComponent {
   drawDataset: any;
   data: any;
   widget: IWidget;
-  init: (data?: any) => void;
+  onResize: (data?: any) => void;
 }

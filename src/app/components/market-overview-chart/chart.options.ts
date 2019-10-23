@@ -1,4 +1,4 @@
-export function setupOptionsByParams(defaultData: any, overwritten?: any) {
+export function setupOptionsByParams() {
   return {
     colorTheme: "dark",
     dateRange: "12m",
@@ -6,8 +6,8 @@ export function setupOptionsByParams(defaultData: any, overwritten?: any) {
     locale: "en",
     largeChartUrl: "",
     isTransparent: false,
-    width: overwritten && overwritten.width ? Math.floor(overwritten.width) : defaultData && defaultData.width && Math.floor(defaultData.width) || 400,
-    height: overwritten && overwritten.height ? Math.floor(overwritten.height) : defaultData && defaultData.height && Math.floor(defaultData.height) || 660,
+    width: 400,
+    height: 660,
     plotLineColorGrowing: "rgba(33, 150, 243, 1)",
     plotLineColorFalling: "rgba(33, 150, 243, 1)",
     gridLineColor: "rgba(233, 233, 234, 1)",

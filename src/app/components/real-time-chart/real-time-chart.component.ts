@@ -59,7 +59,9 @@ export class RealTimeChartComponent implements AfterViewInit, IWidgetComponent {
     this.init();
   }
 
-  public init(resetData?: any) {
+  public onResize = (_?: any) => {}
+
+  public init() {
     const widgetOptions: ChartingLibraryWidgetOptions = {
       symbol: this._symbol,
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(this._datafeedUrl),
@@ -78,15 +80,8 @@ export class RealTimeChartComponent implements AfterViewInit, IWidgetComponent {
       theme: this._theme,
     };
 
-    
-
-    const width = resetData && resetData.width
-      ? Math.floor(resetData.width) : this.drawDataset && this.drawDataset.width && Math.floor(this.drawDataset.width) || 400;
-    const height = resetData && resetData.height
-      ? Math.floor(resetData.height) : this.drawDataset && this.drawDataset.height && Math.floor(this.drawDataset.height) || 660;
-
-    widgetOptions.width = width;
-    widgetOptions.height = height;
+    widgetOptions.width = 400;
+    widgetOptions.height = 660;
 
     const tvWidget = new widget(widgetOptions);
     this._tvWidget = tvWidget;
