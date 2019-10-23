@@ -52,7 +52,10 @@ export class DashboardColumnContainer implements OnInit {
         const component = (element.item.component as any);
 
         if (component) {
-          component.onResize();
+          // FIXME: how we can improve it for 2 types of widget?
+          const { height, width } = element;
+          const contentHeight = component.widget.type === ChartTypes.MonacoEditor ? height : height - this._activePanelHeight;
+          component.onResize({ height: contentHeight, width });
         }
       },
     }

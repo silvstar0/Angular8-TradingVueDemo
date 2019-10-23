@@ -33,16 +33,18 @@ export class MarketOverviewChartComponent implements OnInit, IWidgetComponent {
     this.init();
   }
 
-  public onResize = (_?: any) => {}
+  public onResize = (data: any) => {
+    this.init(data);
+  }
 
-  public init() {
+  public init(resetData?: any) {
     if (this._script || this._content) {
       this._content.remove();
       this._script = undefined;
       this._content = undefined;
     }
 
-    const params = setupOptionsByParams();
+    const params = setupOptionsByParams(this.drawDataset, resetData);
     this._content = this._renderer.createElement('div');
 
     this._script = this._widgetScriptSvc.appendScript(
