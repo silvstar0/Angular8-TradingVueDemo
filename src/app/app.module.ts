@@ -11,7 +11,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core';
 
-import { HeaderContainer, DashboardColumnContainer } from './containers';
+import { HeaderContainer, DashboardContainer } from './containers';
 import {
   TitleBarComponent,
   WidgetBarComponent,
@@ -28,7 +28,7 @@ import {
 
 const CONTAINERS = [
   HeaderContainer,
-  DashboardColumnContainer,
+  DashboardContainer,
 ];
 
 const COMPONENTS = [

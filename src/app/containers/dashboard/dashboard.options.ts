@@ -1,7 +1,7 @@
 import { GridType, CompactType, DisplayGrid } from 'angular-gridster2';
 
-export const DashboardColumnOptions = {
-  gridType: GridType.ScrollVertical,
+export const DashboardOptions = {
+  gridType: GridType.Fit,
   compactType: CompactType.None,
   margin: 10,
   outerMargin: true,
@@ -39,17 +39,18 @@ export const DashboardColumnOptions = {
   ignoreMarginInRow: false,
   draggable: {
     enabled: true,
+    dropOverItems: true,
   },
   resizable: {
     enabled: true,
   },
   swap: false,
-  pushItems: true,
+  pushItems: false,
   disablePushOnDrag: false,
   disablePushOnResize: false,
   pushDirections: {north: true, east: true, south: true, west: true},
   pushResizeItems: false,
-  displayGrid: DisplayGrid.OnDragAndResize,
+  displayGrid: DisplayGrid.None,
   disableWindowResize: false,
   disableWarnings: false,
   scrollToNewItems: false

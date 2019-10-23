@@ -1,24 +1,18 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { GridsterConfig, GridsterItem }  from 'angular-gridster2';
 
 import { ChartTypes, IColumn, IWidget } from '@lib/models';
-import { DashboardColumnOptions } from './dashboard-column.options';
+import { DashboardOptions } from './dashboard.options';
 import { WidgetBarService } from '@app/core/services';
 
 @Component({
-  selector: 'app-dashboard-column',
-  templateUrl: './dashboard-column.container.html',
-  styleUrls: ['./dashboard-column.container.scss'],
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.container.html',
+  styleUrls: ['./dashboard.container.scss'],
 })
-export class DashboardColumnContainer implements OnInit {
+export class DashboardContainer implements OnInit {
   @ViewChild('gridsterItem', { static: true })
   public gridsterItem: GridsterItem;
-
-  @Output()
-  public readonly removeWidget = new EventEmitter<any>();
-
-  @Output()
-  public readonly minimizeWidget = new EventEmitter<any>();
 
   @Input()
   public column: IColumn;
@@ -43,7 +37,7 @@ export class DashboardColumnContainer implements OnInit {
 
   public ngOnInit() {
     this.options = {
-      ...DashboardColumnOptions,
+      ...DashboardOptions,
       itemChangeCallback: (_, element) => {
         const item = element.item as any as IWidget;
         this._widgetBarSvc.updateWidget({ ...item, inDashboard: true });

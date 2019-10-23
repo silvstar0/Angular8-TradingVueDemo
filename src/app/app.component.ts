@@ -1,24 +1,20 @@
-import { Component, ViewChildren, QueryList, OnInit, ViewContainerRef } from '@angular/core';
+import { untilDestroyed } from 'ngx-take-until-destroy';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { StorageKeys, IColumn, IWidget, IWorkspace } from '@lib/models';
 
 import { StorageService, WidgetDataService, WidgetBarService, WorkspaceService } from './core/services';
-import { DashboardColumnContainer } from './containers';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
-  @ViewChildren('columnContainer', { read: ViewContainerRef })
-  public columnContainers: QueryList<ViewContainerRef>;
+export class AppComponent implements OnInit, OnDestroy {
 
-  public widgetData = this._widgetDataSvc.data;
   public workspace: IWorkspace;
-
   public columns: IColumn[];
-  public activeColumnIndex: number;
-
+  public columnDataset: any[];
+  
   public get saveFormattedColumns(): IColumn[] {
     return this.columns.reduce((prev, curr) => [...prev, { id: curr.id }], []);
   }
@@ -44,50 +40,23 @@ export class AppComponent implements OnInit {
 
 
   public ngOnInit() {
-    this.activeColumnIndex = 1;
     this.activeWorkspaceIndex = 0;
     
-    this.workspaceSvc.activeWorkspace.subscribe(worksp => {
+    this.workspaceSvc.activeWorkspace.pipe(untilDestroyed(this)).subscribe(worksp => {
       this.columns = this._storageSvc.get(StorageKeys.columns) || this._defaultColumns.map(c => ({ ...c, id: +`${worksp.id}${c.id}` }));
+
       this.columns = this.columns.map(c => ({ ...c, cards: this._widgetBarSvc.widgetBarValue.filter(widget => widget.columnId === c.id && widget.inDashboard) }));
-      this.workspace = {...worksp, columns: this.columns.filter(c => c.workspaceId === worksp.id)};
+      this.workspace = {...worksp, column: this.columns.find(c => c.workspaceId === worksp.id)};
+      this.columnDataset = this._widgetDataSvc.data ? this._widgetDataSvc.data.find(d => d.columnId === this.workspace.column.id) : undefined;
     });
 
     this.workspaceSvc.initActiveWorkspace(this.activeWorkspaceIndex);
   }
 
-  public getWidgetsDataByColumnId(columnId): any[] {
-    return this.widgetData ? this.widgetData.find(d => d.columnId === columnId) : undefined;
-  }
+  public ngOnDestroy() {}
 
   public selectChart(widget: IWidget) {
-    if (this.activeColumnIndex === undefined) {
-      return;
-    }
-
-    const column = this.workspace.columns[this.activeColumnIndex];
-    column.cards.push(this._widgetBarSvc.addComponentToWidget(widget));
-  }
-
-  public calcColumnSize(size) {
-    const [ left, right ] = this.columns.filter(c => c.workspaceId === this.workspace.id);
-    const draftSizes = {
-      left: size.left >= 50 ? 50 : size.left,
-      right: size.left >= 50 ? 50 : size.right,
-    };
-
-    left.width = draftSizes.left;
-    right.width = draftSizes.right;
-
-    this._storageSvc.set(StorageKeys.columns, this.columns.map(c => ({ ...c, cards: undefined })));
-    this.resizeColumns();
-  }
-
-  public resizeColumns() {
-    this.columnContainers.forEach(col => {
-      const data = (col as any)._data.componentView.component as Partial<DashboardColumnContainer>;
-      data.options.api.resize();
-    });
+    this.workspace.column.cards.push(this._widgetBarSvc.addComponentToWidget(widget));
   }
 
   public selectWorkspace({ workspace, index }) {

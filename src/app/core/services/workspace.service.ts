@@ -35,19 +35,19 @@ export class WorkspaceService {
     this.setActiveWorkspace(this.workspaces[index]);
   }
 
-  public updateWorkspace({ columns, ...value }: IWorkspace) {
+  public updateWorkspace({ column, ...value }: IWorkspace) {
     let draftWorkspaces = this.workspaces.map(workspace => workspace.id === value.id ? value : workspace);
 
     this._storageSvc.set(StorageKeys.workspaces, draftWorkspaces);
   }
 
-  public addWorkspace({ columns, ...value }: IWorkspace) {
+  public addWorkspace({ column, ...value }: IWorkspace) {
     this.workspaces.push(value);
 
     this._storageSvc.set(StorageKeys.workspaces, this.workspaces);
   }
 
-  public removeWorkspace({ columns, ...value }: IWorkspace) {
+  public removeWorkspace({ column, ...value }: IWorkspace) {
     const existWidgetIndex = this.workspaces.findIndex(w => w.id === value.id);
     this.workspaces.splice(existWidgetIndex, 1);
 

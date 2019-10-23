@@ -1,2 +1,2 @@
-export { DashboardColumnContainer } from './dashboard-column/dashboard-column.container';
+export { DashboardContainer } from './dashboard/dashboard.container';
 export { HeaderContainer } from './header/header.container';
